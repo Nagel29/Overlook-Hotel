@@ -2,7 +2,7 @@
 import './css/styles.css';
 import './images/turing-logo.png';
 import './images/overlook-logo.png';
-import './images/junior-suite.png';
+import './images/junior suite.png';
 import './images/residential-suite.png';
 import './images/suite.png';
 import './images/single-room.png';
@@ -10,6 +10,7 @@ import Customer from './customer-class';
 import customerData from './test-data/customer-data.js';
 import bookingData from './test-data/booking-data.js';
 import roomData from './test-data/room-data.js';
+import Booking from './booking-class';
 
 //  QUERYSELECTORS LIVE HERE
 let bookingsSection = document.querySelector('.section--display-bookings');
@@ -23,11 +24,12 @@ customer.retrieveAllBookings(bookingData);
 
 //  EVENT LISTENERS LIVE HERE
 bookingsNav.addEventListener('click', (event) => {
-    displayBookings(event.target.dataset.cat);
+    let bookings = retrieveBookingsForDisplay(event.target.dataset.cat);
+    displayBookings(bookings);
 })
 
 // HELPER FUNCTIONS LIVE HERE
-let displayBookings = (type) => {
+let retrieveBookingsForDisplay = (type) => {
     bookingsSection.innerHTML = ''
     let bookings;
     if (type === 'all') {
@@ -37,20 +39,26 @@ let displayBookings = (type) => {
     } else if (type === 'past') {
         bookings = customer.retrievePastBookings();
     }
+    return bookings;
+}
+
+let displayBookings = (bookings) => {
     bookings.forEach(booking => {
-        console.log(booking)
+        let roomInfo = booking.retrieveRoomInfo();
         bookingsSection.innerHTML += `<div class="card--booking">
         <ul>
           <li>Date: ${booking.date}</li>
           <li>Room Number: ${booking.roomNumber}</li>
-          <li>Room Type: Presidential Suite</li>
-          <li>Bed Size: King</li>
-          <li>Number of Beds: 2</li>
-          <li>Cost per Night: $366.78</li>
+          <li>Room Type: ${roomInfo.roomType}</li>
+          <li>Bed Size: ${roomInfo.bedSize}</li>
+          <li>Number of Beds: ${roomInfo.numBeds}</li>
+          <li>Cost per Night: ${roomInfo.costPerNight}</li>
         </ul>
-        <img class="image--room" src="./images/junior-suite.png">
+        <img class="image--room" src="./images/junior suite.png">
       </div>`
     })
+}
+
+
     
 
-}
