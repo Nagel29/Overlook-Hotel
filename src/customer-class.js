@@ -4,9 +4,9 @@ class Customer {
         this.name = customerInfo.name;
     }
 
-    // retrieveBookings() {
-        
-    // }
+    retrieveBookings(allBookings) {
+        return allBookings.filter(booking => booking.userID === this.id)
+    }
 }
 
 export default Customer
