@@ -1,3 +1,41 @@
-body {
+/* * {
+
+} */
+
+.section--header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 125%;
+  max-height: 100%;
+}
+
+.p--welcome {
+  color: white;
+}
+
+.image--overlook {
+  width: 29%;
+  height: 100%;
+  align-self: center;
+  margin-bottom: 2vh;
+}
+
+nav {
+  margin-bottom: 1.5%
+}
+
+header {
+  height: 20%;
+  text-align: center;
+  font-size: 125%;
+  border-bottom: solid darkslategrey 1px;
+  padding: 1% 2% 0% 2%;
+  background-image: url('../images/carpet.svg');
+}
+
+html, body {
   background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+  margin: 0px;
+  height: 100%;
 }
