@@ -29,10 +29,10 @@ describe('Customer', function() {
   it('should be able to retrieve all their bookings', function() {
     customer.retrieveAllBookings(bookingData)
     expect(customer.bookings).to.deep.equal([{
-      "id": "5fwrgu4i7k55hl6t5",
+      "id": "5fwrgu4i7k55hblah",
       "userID": 1,
-      "date": "2022/01/24",
-      "roomNumber": 24
+      "date": "2023/02/05",
+      "roomNumber": 12
     },
     {
       "id": "5fwrgu4i7k55hl6t8",
@@ -41,25 +41,25 @@ describe('Customer', function() {
       "roomNumber": 12
     },
     {
-      "id": "5fwrgu4i7k55hblah",
+      "id": "5fwrgu4i7k55hl6t5",
       "userID": 1,
-      "date": "2023/02/05",
-      "roomNumber": 12
+      "date": "2022/01/24",
+      "roomNumber": 24
     }]);
   });
 
   it('should be able to retrieve past bookings', function() {
     expect(customer.retrievePastBookings()).to.deep.equal([{
-      "id": "5fwrgu4i7k55hl6t5",
-      "userID": 1,
-      "date": "2022/01/24",
-      "roomNumber": 24
-    },
-    {
       "id": "5fwrgu4i7k55hl6t8",
       "userID": 1,
       "date": "2022/02/05",
       "roomNumber": 12
+    },
+    {
+      "id": "5fwrgu4i7k55hl6t5",
+      "userID": 1,
+      "date": "2022/01/24",
+      "roomNumber": 24
     }]);
   });
 
