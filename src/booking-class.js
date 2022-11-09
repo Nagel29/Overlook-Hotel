@@ -1,3 +1,5 @@
+import roomData from './test-data/room-data.js';
+
 class Booking {
     constructor(customerInfo, room, date) {
         this.userID = customerInfo.id;
@@ -8,6 +10,10 @@ class Booking {
     // generateID() {
         
     // }
+
+    retrieveRoomInfo() {
+        return roomData.find(room => room.number === this.roomNumber)
+    }
 }
 
 export default Booking

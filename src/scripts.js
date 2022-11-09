@@ -38,10 +38,11 @@ let displayBookings = (type) => {
         bookings = customer.retrievePastBookings();
     }
     bookings.forEach(booking => {
+        console.log(booking)
         bookingsSection.innerHTML += `<div class="card--booking">
         <ul>
-          <li>Date: 11/22/2021</li>
-          <li>Room Number: 23</li>
+          <li>Date: ${booking.date}</li>
+          <li>Room Number: ${booking.roomNumber}</li>
           <li>Room Type: Presidential Suite</li>
           <li>Bed Size: King</li>
           <li>Number of Beds: 2</li>

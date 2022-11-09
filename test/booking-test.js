@@ -31,6 +31,16 @@ describe('Booking', function() {
     expect(booking.date).to.equal('11/22/2022');
   });
 
+  it('should be able to retrieve room information', function() {
+    expect(booking.retrieveRoomInfo()).to.deep.equal({
+      "number": 2,
+      "roomType": "suite",
+      "bidet": false,
+      "bedSize": "full",
+      "numBeds": 2,
+      "costPerNight": 477.38
+    });
+  });
 
 
 });
