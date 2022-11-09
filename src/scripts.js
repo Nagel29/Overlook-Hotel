@@ -1,11 +1,20 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
+//  IMPORTS LIVE HERE
 import './css/styles.css';
+import './images/turing-logo.png';
+import './images/overlook-logo.png';
+import './images/junior-suite.png';
+import './images/residential-suite.png';
+import './images/suite.png';
+import './images/single-room.png';
 
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+//  QUERYSELECTORS LIVE HERE
 
 
-console.log('This is the JavaScript entry file - your code begins here.');
+
+// GLOBAL VARIABLES LIVE HERE
+
+//  PROMISES LIVE HERE
+
+//  EVENT LISTENERS LIVE HERE
+
+// HELPER FUNCTIONS LIVE HERE

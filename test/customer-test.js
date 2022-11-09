@@ -6,12 +6,12 @@ import roomData from '../src/test-data/room-data';
 const expect = chai.expect;
 
 describe('Customer', function() {
-  let customer, allRooms, customerBookings;
+  let customer, allRooms;
 
   beforeEach(() => {
     customer = new Customer(customerData)
     allRooms = roomData;
-    customerBookings = customer.retrieveAllBookings(bookingData);
+    customer.retrieveAllBookings(bookingData)
   })
 
   it('should be a function', function() {
@@ -74,7 +74,7 @@ describe('Customer', function() {
   });
 
   it('should be able to calculate total cost spent on rooms', function() {
-    expect(customer.calculateTotalSpent(allRooms)).to.equal(671.42);
+    expect(customer.calculateTotalSpent(customer.bookings, allRooms)).to.equal(671.42);
   });
 
 

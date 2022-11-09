@@ -22,8 +22,8 @@ class Customer {
         });
     }
 
-    calculateTotalSpent(allRooms) {
-        let totalCost = this.bookings.reduce((acc, booking) => {
+    calculateTotalSpent(bookings, allRooms) {
+        let totalCost = bookings.reduce((acc, booking) => {
             allRooms.forEach(room => {
                 if (room.number === booking.roomNumber) {
                     acc += room.costPerNight;
