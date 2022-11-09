@@ -9,7 +9,7 @@ describe('Booking', function() {
   let customer, room, date, booking;
 
   beforeEach(() => {
-    room = roomData;
+    room = roomData[1];
     date = '11/22/2022'
     customer = new Customer(customerData)
     booking = new Booking(customer, room, date)
