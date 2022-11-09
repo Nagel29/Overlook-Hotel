@@ -3,9 +3,9 @@ import './css/styles.css';
 import './images/turing-logo.png';
 import './images/overlook-logo.png';
 import './images/junior suite.png';
-import './images/residential-suite.png';
+import './images/residential suite.png';
 import './images/suite.png';
-import './images/single-room.png';
+import './images/single room.png';
 import Customer from './customer-class';
 import customerData from './test-data/customer-data.js';
 import bookingData from './test-data/booking-data.js';
@@ -15,6 +15,7 @@ import Booking from './booking-class';
 //  QUERYSELECTORS LIVE HERE
 let bookingsSection = document.querySelector('.section--display-bookings');
 let bookingsNav = document.querySelector('.nav--bookings');
+let totalSpent = document.querySelector('.text--total-spent');
 
 // GLOBAL VARIABLES LIVE HERE
 let customer = new Customer(customerData);
@@ -25,7 +26,7 @@ customer.retrieveAllBookings(bookingData);
 //  EVENT LISTENERS LIVE HERE
 bookingsNav.addEventListener('click', (event) => {
     let bookings = retrieveBookingsForDisplay(event.target.dataset.cat);
-    displayBookings(bookings);
+    displayBookings(bookings, event.target.dataset.cat);
 })
 
 // HELPER FUNCTIONS LIVE HERE
@@ -42,7 +43,7 @@ let retrieveBookingsForDisplay = (type) => {
     return bookings;
 }
 
-let displayBookings = (bookings) => {
+let displayBookings = (bookings, type) => {
     bookings.forEach(booking => {
         let roomInfo = booking.retrieveRoomInfo();
         bookingsSection.innerHTML += `<div class="card--booking">
@@ -54,9 +55,10 @@ let displayBookings = (bookings) => {
           <li>Number of Beds: ${roomInfo.numBeds}</li>
           <li>Cost per Night: ${roomInfo.costPerNight}</li>
         </ul>
-        <img class="image--room" src="./images/junior suite.png">
+        <img class="image--room" src="./images/${roomInfo.roomType}.png" alt="${roomInfo.roomType}">
       </div>`
     })
+    totalSpent.innerText = `Total spent on ${type} rooms: $${customer.calculateTotalSpent(bookings, roomData)}`;
 }
 
 

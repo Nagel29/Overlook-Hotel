@@ -20,8 +20,8 @@
 }
 
 .image--room {
-  width: 35%;
-  height: 35%;
+  width: 30%;
+  height: 30%;
   border: solid 1px saddlebrown;
 }
 
@@ -87,6 +87,12 @@
   display: flex;
   text-align: center;
   margin-bottom: 1%;
+}
+
+.text--total-spent {
+  margin: 0% 0% 2% 2%;
+  font-weight: bold;
+  font-size: 2vh;
 }
 
 .hidden {

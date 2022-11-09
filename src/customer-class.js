@@ -1,3 +1,5 @@
+import Booking from './booking-class.js';
+
 class Customer {
     constructor(customerInfo) {
         this.id = customerInfo.id;
@@ -5,7 +7,11 @@ class Customer {
     }
 
     retrieveAllBookings(allBookings) {
-        this.bookings = allBookings.filter(booking => booking.userID === this.id);
+        this.bookings = [];
+        let userBookings = allBookings.filter(booking => booking.userID === this.id);
+        userBookings.forEach(booking => {
+            this.bookings.push(new Booking(booking))
+        })
     }
 
     retrieveFutureBookings() {

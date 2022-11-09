@@ -12,7 +12,7 @@ describe('Customer', function() {
     customer = new Customer(customerData)
     allRooms = roomData;
     customer.retrieveAllBookings(bookingData)
-  })
+  });
 
   it('should be a function', function() {
     expect(Customer).to.be.a('function');
