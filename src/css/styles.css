@@ -8,7 +8,7 @@
   align-items: center;
   border: solid 1px saddlebrown;
   margin: 1%;
-  width: 25%;
+  width: 50%;
 }
 
 .image--overlook {
@@ -43,7 +43,7 @@
 .link--bookings {
   color: inherit;
   text-decoration: none;
-  font-size: 2vh;
+  font-size: 2.4vh;
   margin-left: 1%;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .nav--bookings {
-  margin-bottom: .25%;
+  margin: 0% 0% .30% 1%;
 }
 
 .nav--header {
@@ -73,6 +73,9 @@
 
 .section--bookings {
   border-top: 1px darkslategray solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .section--header {
@@ -85,14 +88,21 @@
 
 .section--dates {
   display: flex;
-  text-align: center;
   margin-bottom: 1%;
 }
 
+.section--display-bookings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
 .text--total-spent {
-  margin: 0% 0% 2% 2%;
+  margin: 0% 0% 2% 0%;
   font-weight: bold;
-  font-size: 2vh;
+  font-size: 2.7vh;
+  text-align: center;
 }
 
 .hidden {
@@ -114,10 +124,16 @@ html, body {
   height: 100%;
 }
 
-h1, h2 {
+h1, h3 {
   text-align: center;
   margin: 2% 0% 2% 0%;
   font-size: 3vh;
+}
+
+h2 {
+  text-align: center;
+  margin: 2% 0% 2% 0%;
+  font-size: 2.5vh;
 }
 
 ul {
@@ -127,5 +143,5 @@ ul {
 }
 
 li {
-  padding: .5%;
+  padding: 1%;
 }

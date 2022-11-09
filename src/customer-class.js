@@ -12,6 +12,14 @@ class Customer {
         userBookings.forEach(booking => {
             this.bookings.push(new Booking(booking))
         })
+
+         this.bookings.sort((a, b) => {
+            if (a.date > b.date) {
+                return -1;
+            } else {
+                return 1;
+            };
+        });
     }
 
     retrieveFutureBookings() {

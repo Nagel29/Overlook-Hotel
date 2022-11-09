@@ -14,8 +14,9 @@ import Booking from './booking-class';
 
 //  QUERYSELECTORS LIVE HERE
 let bookingsSection = document.querySelector('.section--display-bookings');
-let bookingsNav = document.querySelector('.nav--bookings');
-let totalSpent = document.querySelector('.text--total-spent');
+let bookingsNav = document.querySelector('#nav--bookings');
+let totalSpent = document.querySelector('#text--total-spent');
+let bookingsTitle = document.querySelector('#title--bookings');
 
 // GLOBAL VARIABLES LIVE HERE
 let customer = new Customer(customerData);
@@ -44,19 +45,21 @@ let retrieveBookingsForDisplay = (type) => {
 }
 
 let displayBookings = (bookings, type) => {
+    bookingsTitle.innerText = `${type.toUpperCase()} BOOKINGS`
     bookings.forEach(booking => {
         let roomInfo = booking.retrieveRoomInfo();
-        bookingsSection.innerHTML += `<div class="card--booking">
-        <ul>
-          <li>Date: ${booking.date}</li>
-          <li>Room Number: ${booking.roomNumber}</li>
-          <li>Room Type: ${roomInfo.roomType}</li>
-          <li>Bed Size: ${roomInfo.bedSize}</li>
-          <li>Number of Beds: ${roomInfo.numBeds}</li>
-          <li>Cost per Night: ${roomInfo.costPerNight}</li>
-        </ul>
-        <img class="image--room" src="./images/${roomInfo.roomType}.png" alt="${roomInfo.roomType}">
-      </div>`
+        bookingsSection.innerHTML += 
+        `<div class="card--booking">
+            <ul>
+            <li>Date: ${booking.date}</li>
+            <li>Room Number: ${booking.roomNumber}</li>
+            <li>Room Type: ${roomInfo.roomType}</li>
+            <li>Bed Size: ${roomInfo.bedSize}</li>
+            <li>Number of Beds: ${roomInfo.numBeds}</li>
+            <li>Cost per Night: ${roomInfo.costPerNight}</li>
+            </ul>
+            <img class="image--room" src="./images/${roomInfo.roomType}.png" alt="${roomInfo.roomType}">
+        </div>`
     })
     totalSpent.innerText = `Total spent on ${type} rooms: $${customer.calculateTotalSpent(bookings, roomData)}`;
 }
