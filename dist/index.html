@@ -11,13 +11,42 @@
     <section class="section--header">
       <p class="p--welcome">Welcome, User!</p>
       <img src="./images/overlook-logo.png" class="image--overlook">
-      <nav>
-        <button type="button">Book a Room</button>
+      <nav class="nav--header">
+        <button type="button" class="hidden">Book a Room</button>
         <button type="button">My Bookings</button>
       </nav>
     </section>
-    
   </header>
+  <main>
+    <section class="section--my-bookings hidden">
+      <h1>My Bookings</h1>
+      <nav class="nav--bookings">
+        <a href="#" class="link--bookings">Past Bookings</a>
+        <a href="#" class="link--bookings">Future Bookings</a>
+        <a href="#" class="link--bookings">All Bookings</a>
+      </nav>
+      <section class="section--bookings">
+
+      </section>
+    </section>
+    <section class="section--book-room">
+      <h2>Book a Room</h2>
+      <section class="section--dates">
+        <div class="input--date">
+          <label for="check-in">Check-In Date</label>
+          <input type="date" name="check-in" id="input--from">
+        </div>
+        <div class="input--date">
+          <label for="check-in">Check-Out Date</label>
+          <input type="date" name="check-in" id="input--from">
+        </div>
+      </section>
+      
+      <section class="section--available-rooms">
+
+      </section>
+    </section>
+  </main>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
 </body>
