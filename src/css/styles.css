@@ -1,3 +1,93 @@
-body {
-  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+/* * {
+
+} */
+
+.section--available-rooms {
+  border-top: 1px darkslategray solid;
+}
+
+.section--bookings {
+  border-top: 1px darkslategray solid;
+}
+
+.section--header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 125%;
+  max-height: 100%;
+}
+
+.section--dates {
+  display: flex;
+  text-align: center;
+  margin-bottom: 1%;
+}
+
+.p--welcome {
+  color: white;
+  font-weight: bold;
+  font-size: 2.5vh;
+}
+
+.image--overlook {
+  width: 29%;
+  height: 100%;
+  align-self: center;
+  justify-self: center;
+  margin-bottom: 2vh;
+}
+
+.input--date {
+  display:flex;
+  flex-direction:column;
+  margin-left: 1%;;
+  width: auto;
+}
+
+.link--bookings {
+  color: inherit;
+  text-decoration: none;
+  font-size: 2vh;
+  margin-left: 1%;
+}
+
+.link--bookings:hover {
+  border-bottom: .65vh #93443b solid;
+  color: #93443b;
+  font-weight: bold;
+}
+
+.nav--bookings {
+  margin-bottom: .25%;
+}
+
+.nav--header {
+  margin-bottom: 1%
+}
+
+.hidden {
+  display: none;
+}
+
+
+header {
+  height: 20%;
+  text-align: center;
+  font-size: 125%;
+  border-bottom: solid darkslategrey 1px;
+  padding: 1% 2% 0% 2%;
+  background-image: url('../images/carpet.svg');
+}
+
+html, body {
+  background-color: blanchedalmond;
+  margin: 0px;
+  height: 100%;
+}
+
+h1, h2 {
+  text-align: center;
+  margin: 2% 0% 2% 0%;
+  font-size: 3vh;
 }
