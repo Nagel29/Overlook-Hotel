@@ -2,32 +2,13 @@
 
 } */
 
-.section--available-rooms {
-  border-top: 1px darkslategray solid;
-}
-
-.section--bookings {
-  border-top: 1px darkslategray solid;
-}
-
-.section--header {
+.card--booking {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  font-size: 125%;
-  max-height: 100%;
-}
-
-.section--dates {
-  display: flex;
-  text-align: center;
-  margin-bottom: 1%;
-}
-
-.p--welcome {
-  color: white;
-  font-weight: bold;
-  font-size: 2.5vh;
+  justify-content: space-around;
+  align-items: center;
+  border: solid 1px saddlebrown;
+  margin: 1%;
+  width: 50%;
 }
 
 .image--overlook {
@@ -36,6 +17,20 @@
   align-self: center;
   justify-self: center;
   margin-bottom: 2vh;
+}
+
+.image--room {
+  width: 30%;
+  height: 30%;
+  border: solid 1px saddlebrown;
+}
+
+.image--room:hover {
+  transform: scale(3) translate(20%);
+  cursor: pointer;
+  -webkit-transition-property: all; 
+  -webkit-transition-duration: 0.3s; 
+  -webkit-transition-timing-function: ease; 
 }
 
 .input--date {
@@ -48,7 +43,7 @@
 .link--bookings {
   color: inherit;
   text-decoration: none;
-  font-size: 2vh;
+  font-size: 2.4vh;
   margin-left: 1%;
 }
 
@@ -59,11 +54,55 @@
 }
 
 .nav--bookings {
-  margin-bottom: .25%;
+  margin: 0% 0% .30% 1%;
 }
 
 .nav--header {
   margin-bottom: 1%
+}
+
+.p--welcome {
+  color: white;
+  font-weight: bold;
+  font-size: 2.5vh;
+}
+
+.section--available-rooms {
+  border-top: 1px darkslategray solid;
+}
+
+.section--bookings {
+  border-top: 1px darkslategray solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section--header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 125%;
+  max-height: 100%;
+}
+
+.section--dates {
+  display: flex;
+  margin-bottom: 1%;
+}
+
+.section--display-bookings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.text--total-spent {
+  margin: 0% 0% 2% 0%;
+  font-weight: bold;
+  font-size: 2.7vh;
+  text-align: center;
 }
 
 .hidden {
@@ -85,8 +124,24 @@ html, body {
   height: 100%;
 }
 
-h1, h2 {
+h1, h3 {
   text-align: center;
   margin: 2% 0% 2% 0%;
   font-size: 3vh;
+}
+
+h2 {
+  text-align: center;
+  margin: 2% 0% 2% 0%;
+  font-size: 2.5vh;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  width: 50%;
+}
+
+li {
+  padding: 1%;
 }
