@@ -22,6 +22,7 @@
 .image--room {
   width: 35%;
   height: 35%;
+  border: solid 1px saddlebrown;
 }
 
 .image--room:hover {
