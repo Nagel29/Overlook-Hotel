@@ -27,7 +27,8 @@ describe('Customer', function() {
   });
 
   it('should be able to retrieve all their bookings', function() {
-    expect(customer.retrieveAllBookings(bookingData)).to.deep.equal([{
+    customer.retrieveAllBookings(bookingData)
+    expect(customer.bookings).to.deep.equal([{
       "id": "5fwrgu4i7k55hl6t5",
       "userID": 1,
       "date": "2022/01/24",
@@ -48,7 +49,7 @@ describe('Customer', function() {
   });
 
   it('should be able to retrieve past bookings', function() {
-    expect(customer.retrievePastBookings(customerBookings)).to.deep.equal([{
+    expect(customer.retrievePastBookings()).to.deep.equal([{
       "id": "5fwrgu4i7k55hl6t5",
       "userID": 1,
       "date": "2022/01/24",
@@ -63,7 +64,7 @@ describe('Customer', function() {
   });
 
   it('should be able to retrieve future bookings', function() {
-    expect(customer.retrieveFutureBookings(bookingData)).to.deep.equal([
+    expect(customer.retrieveFutureBookings()).to.deep.equal([
       {
       "id": "5fwrgu4i7k55hblah",
       "userID": 1,
@@ -73,7 +74,7 @@ describe('Customer', function() {
   });
 
   it('should be able to calculate total cost spent on rooms', function() {
-    expect(customer.calculateTotalSpent(customerBookings, allRooms)).to.equal(671.42);
+    expect(customer.calculateTotalSpent(allRooms)).to.equal(671.42);
   });
 
 

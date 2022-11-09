@@ -5,25 +5,25 @@ class Customer {
     }
 
     retrieveAllBookings(allBookings) {
-        return allBookings.filter(booking => booking.userID === this.id);
+        this.bookings = allBookings.filter(booking => booking.userID === this.id);
     }
 
-    retrieveFutureBookings(bookings) {
-        return bookings.filter(booking => {
+    retrieveFutureBookings() {
+        return this.bookings.filter(booking => {
             let date = new Date(booking.date);
             return date.getTime() >= Date.now();
         });
     }
 
-    retrievePastBookings(bookings) {
-        return bookings.filter(booking => {
+    retrievePastBookings() {
+        return this.bookings.filter(booking => {
             let date = new Date(booking.date);
             return date.getTime() < Date.now();
         });
     }
 
-    calculateTotalSpent(bookings, allRooms) {
-        let totalCost = bookings.reduce((acc, booking) => {
+    calculateTotalSpent(allRooms) {
+        let totalCost = this.bookings.reduce((acc, booking) => {
             allRooms.forEach(room => {
                 if (room.number === booking.roomNumber) {
                     acc += room.costPerNight;
