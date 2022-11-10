@@ -9,9 +9,10 @@ import './images/single room.png';
 import Customer from './customer-class.js';
 import customerData from './test-data/customer-data.js';
 import bookingData from './test-data/booking-data.js';
-import roomData from './test-data/room-data.js';
+// import roomData from './test-data/room-data.js';
 import Booking from './booking-class.js';
 import fetchData from './apiCalls.js';
+import Room from './room-class';
 
 //  QUERYSELECTORS LIVE HERE
 let bookRoomButton = document.querySelector('#button--book-room');
@@ -25,26 +26,26 @@ let bookingsTitle = document.querySelector('#title--bookings');
 let welcomeMessage = document.querySelector('#p--welcome');
 
 // GLOBAL VARIABLES LIVE HERE
-let customer, allRooms;
+let customer, roomData, allRooms;
+
 
 //  PROMISES LIVE HERE
 let promises = () => {
-    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/1')])
+    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/6')])
     .then(data => {
-        customer = new Customer(data[2]);
-        customer.retrieveAllBookings(data[1].bookings);
-        updateWelcome();
-        allRooms = data[0].rooms;
-        let bookings = retrieveBookingsForDisplay('all');
-        displayBookings(bookings, 'all');
-    })
+        createAndWelcomeCustomer(data[2], data[1].bookings);
+        roomData = data[0].rooms;
+        displayUserBookings(customer.bookings, 'all');
+        updateRooms(data[1].bookings)
+    });
 }
+
 
 //  EVENT LISTENERS LIVE HERE
 bookingsNav.addEventListener('click', (event) => {
     if (event.target.dataset.cat) {
-        let bookings = retrieveBookingsForDisplay(event.target.dataset.cat);
-        displayBookings(bookings, event.target.dataset.cat);
+        let bookings = retrieveUserBookingsForDisplay(event.target.dataset.cat);
+        displayUserBookings(bookings, event.target.dataset.cat);
     }
 })
 
@@ -60,8 +61,8 @@ myBookingsButton.addEventListener('click', () => {
     hide(bookRoomSection);
     show(bookRoomButton);
     hide(myBookingsButton);
-    let bookings = retrieveBookingsForDisplay('all');
-    displayBookings(bookings, 'all');
+    let bookings = retrieveUserBookingsForDisplay('all');
+    displayUserBookings(bookings, 'all');
 })
 
 // HELPER FUNCTIONS LIVE HERE
@@ -73,11 +74,26 @@ let hide = (element) => {
     element.classList.add('hidden')
 }
 
+let createAndWelcomeCustomer = (userData, bookings) => {
+    customer = new Customer(userData);
+    customer.retrieveAllBookings(bookings);
+    updateWelcome();
+}
+
+let updateRooms = (bookings) => {
+    allRooms = [];
+    roomData.forEach(room => {
+        let roomInstance = new Room(room);
+        roomInstance.retrieveBookings(bookings);
+        allRooms.push(roomInstance);
+    });
+}
+
 let updateWelcome = () => {
     welcomeMessage.innerText = `Welcome, ${customer.name}!`;
 }
 
-let retrieveBookingsForDisplay = (type) => {
+let retrieveUserBookingsForDisplay = (type) => {
     bookingsSection.innerHTML = ''
     let bookings;
     if (type === 'all') {
@@ -90,7 +106,7 @@ let retrieveBookingsForDisplay = (type) => {
     return bookings;
 }
 
-let displayBookings = (bookings, type) => {
+let displayUserBookings = (bookings, type) => {
     bookingsTitle.innerText = `${type.toUpperCase()} BOOKINGS`
     bookings.forEach(booking => {
         let roomInfo = booking.retrieveRoomInfo();
