@@ -17,13 +17,17 @@ import Room from './room-class';
 //  QUERYSELECTORS LIVE HERE
 let bookRoomButton = document.querySelector('#button--book-room');
 let myBookingsButton = document.querySelector('#button--my-bookings');
+let dateInput = document.querySelector('#input--date')
+let bookingsNav = document.querySelector('#nav--bookings');
+let welcomeMessage = document.querySelector('#p--welcome');
+let availableRooms = document.querySelector('#section--available-rooms');
 let bookRoomSection = document.querySelector('#section--book-room');
 let bookingsSection = document.querySelector('#section--display-bookings');
-let myBookingsSection = document.querySelector('#section--my-bookings')
-let bookingsNav = document.querySelector('#nav--bookings');
+let myBookingsSection = document.querySelector('#section--my-bookings');
+let roomsTableBody = document.querySelector('#table--rooms-body')
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
-let welcomeMessage = document.querySelector('#p--welcome');
+
 
 // GLOBAL VARIABLES LIVE HERE
 let customer, roomData, allRooms;
@@ -64,6 +68,13 @@ myBookingsButton.addEventListener('click', () => {
     hide(myBookingsButton);
     let bookings = retrieveUserBookingsForDisplay('all');
     displayUserBookings(bookings, 'all');
+})
+
+dateInput.addEventListener('input', (event) => {
+    let date = event.target.value;
+    date = date.replace(/[-]/g, '/');
+    let availableRooms = retrieveAvailableRooms(date);
+    displayAvailableRooms(availableRooms);
 })
 
 // HELPER FUNCTIONS LIVE HERE
@@ -122,6 +133,21 @@ let retrieveUserBookingsForDisplay = (type) => {
         bookings = customer.retrievePastBookings();
     }
     return bookings;
+}
+
+let displayAvailableRooms = (availableRooms) => {
+    roomsTableBody.innerHTML = '';
+    availableRooms.forEach(room => {
+        roomsTableBody.innerHTML += `<tr>
+        <td>${room.number}</td>
+        <td>${room.number}</td>
+        <td>${room.roomType}</td>
+        <td>${room.bidet}</td>
+        <td>${room.bedSize}</td>
+        <td>${room.numBeds}</td>
+        <td>${room.costPerNight}</td>
+        </tr>`
+    })
 }
 
 let displayUserBookings = (bookings, type) => {
