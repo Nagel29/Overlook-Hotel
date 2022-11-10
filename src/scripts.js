@@ -6,23 +6,33 @@ import './images/junior suite.png';
 import './images/residential suite.png';
 import './images/suite.png';
 import './images/single room.png';
-import Customer from './customer-class';
+import Customer from './customer-class.js';
 import customerData from './test-data/customer-data.js';
 import bookingData from './test-data/booking-data.js';
 import roomData from './test-data/room-data.js';
-import Booking from './booking-class';
+import Booking from './booking-class.js';
+import fetchData from './apiCalls.js';
 
 //  QUERYSELECTORS LIVE HERE
 let bookingsSection = document.querySelector('.section--display-bookings');
 let bookingsNav = document.querySelector('#nav--bookings');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
+let welcomeMessage = document.querySelector('#p--welcome')
 
 // GLOBAL VARIABLES LIVE HERE
-let customer = new Customer(customerData);
-customer.retrieveAllBookings(bookingData);
+let customer, allRooms;
 
 //  PROMISES LIVE HERE
+let promises = () => {
+    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/1')])
+    .then(data => {
+        customer = new Customer(data[2]);
+        customer.retrieveAllBookings(data[1].bookings);
+        updateWelcome();
+        allRooms = data[0].rooms;
+    })
+}
 
 //  EVENT LISTENERS LIVE HERE
 bookingsNav.addEventListener('click', (event) => {
@@ -31,6 +41,10 @@ bookingsNav.addEventListener('click', (event) => {
 })
 
 // HELPER FUNCTIONS LIVE HERE
+let updateWelcome = () => {
+    welcomeMessage.innerText = `Welcome, ${customer.name}!`;
+}
+
 let retrieveBookingsForDisplay = (type) => {
     bookingsSection.innerHTML = ''
     let bookings;
@@ -64,6 +78,7 @@ let displayBookings = (bookings, type) => {
     totalSpent.innerText = `Total spent on ${type} rooms: $${customer.calculateTotalSpent(bookings, roomData)}`;
 }
 
+window.addEventListener('load', promises())
 
     
 

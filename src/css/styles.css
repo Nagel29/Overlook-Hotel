@@ -8,7 +8,7 @@
   align-items: center;
   border: solid 1px saddlebrown;
   margin: 1%;
-  width: 50%;
+  width: 45%;
 }
 
 .image--overlook {
@@ -17,11 +17,11 @@
   align-self: center;
   justify-self: center;
   margin-bottom: 2vh;
+  opacity: 1;
 }
 
 .image--room {
   width: 30%;
-  height: 30%;
   border: solid 1px saddlebrown;
 }
 
@@ -58,13 +58,19 @@
 }
 
 .nav--header {
-  margin-bottom: 1%
+  margin-bottom: 1%;
+  margin-left: 20%;
+  width: 25%;
+  opacity: 1;
 }
 
 .p--welcome {
-  color: white;
+  color: #ffffff;
   font-weight: bold;
   font-size: 2.5vh;
+  width: 25%;
+  margin-right: 20%;
+  opacity: 1;
 }
 
 .section--available-rooms {
@@ -109,13 +115,28 @@
   display: none;
 }
 
+button {
+  width: 50%;
+  border: solid 1.5px black;
+  background-color:white;
+  color: black;
+  font-size: 2vh;
+  padding: 2%;
+}
+
+button:hover {
+  background-color: #c26161;
+  color: white;
+  cursor: pointer;
+}
+
 header {
   height: 20%;
   text-align: center;
   font-size: 125%;
   border-bottom: solid darkslategrey 1px;
   padding: 1% 2% 0% 2%;
-  background-image: url('../images/carpet.svg');
+  background-image: linear-gradient(#ffffffaa, #ffffff00), url('../images/carpet.svg');
 }
 
 html, body {

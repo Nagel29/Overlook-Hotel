@@ -74,7 +74,7 @@ describe('Customer', function() {
   });
 
   it('should be able to calculate total cost spent on rooms', function() {
-    expect(customer.calculateTotalSpent(customer.bookings, allRooms)).to.equal(671.42);
+    expect(customer.calculateTotalSpent(customer.bookings, allRooms)).to.equal('671.42');
   });
 
 
