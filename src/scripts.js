@@ -35,6 +35,8 @@ let promises = () => {
         customer.retrieveAllBookings(data[1].bookings);
         updateWelcome();
         allRooms = data[0].rooms;
+        let bookings = retrieveBookingsForDisplay('all');
+        displayBookings(bookings, 'all');
     })
 }
 
@@ -58,6 +60,8 @@ myBookingsButton.addEventListener('click', () => {
     hide(bookRoomSection);
     show(bookRoomButton);
     hide(myBookingsButton);
+    let bookings = retrieveBookingsForDisplay('all');
+    displayBookings(bookings, 'all');
 })
 
 // HELPER FUNCTIONS LIVE HERE

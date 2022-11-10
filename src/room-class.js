@@ -7,6 +7,11 @@ class Room {
         this.numBeds = roomInfo.numBeds;
         this.costPerNight = roomInfo.costPerNight;
     }
+
+    retrieveBookings(bookingsData) {
+        this.bookings = bookingsData.filter(booking => booking.roomNumber === this.number);
+    }
+
 }
 
 export default Room
