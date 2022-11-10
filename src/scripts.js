@@ -37,6 +37,7 @@ let promises = () => {
         roomData = data[0].rooms;
         displayUserBookings(customer.bookings, 'all');
         updateRooms(data[1].bookings)
+        // console.log(retrieveAvailableRooms('2022/01/22'))
     });
 }
 
@@ -91,6 +92,23 @@ let updateRooms = (bookings) => {
 
 let updateWelcome = () => {
     welcomeMessage.innerText = `Welcome, ${customer.name}!`;
+}
+
+let retrieveAvailableRooms = (date) => {
+    let availableRooms = allRooms.reduce((acc, room) => {
+        let booked = false;
+        room.bookings.forEach(booking => {
+            if (booking.date === date) {
+                booked = true;
+            }
+        })
+        if (booked === false) {
+            acc.push(room);
+        }
+        return acc;
+    }, []);
+    
+    return availableRooms;
 }
 
 let retrieveUserBookingsForDisplay = (type) => {
