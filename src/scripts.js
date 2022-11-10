@@ -9,43 +9,109 @@ import './images/single room.png';
 import Customer from './customer-class.js';
 import customerData from './test-data/customer-data.js';
 import bookingData from './test-data/booking-data.js';
-import roomData from './test-data/room-data.js';
+// import roomData from './test-data/room-data.js';
 import Booking from './booking-class.js';
 import fetchData from './apiCalls.js';
+import Room from './room-class';
 
 //  QUERYSELECTORS LIVE HERE
-let bookingsSection = document.querySelector('.section--display-bookings');
+let bookRoomButton = document.querySelector('#button--book-room');
+let myBookingsButton = document.querySelector('#button--my-bookings');
+let bookRoomSection = document.querySelector('#section--book-room');
+let bookingsSection = document.querySelector('#section--display-bookings');
+let myBookingsSection = document.querySelector('#section--my-bookings')
 let bookingsNav = document.querySelector('#nav--bookings');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
-let welcomeMessage = document.querySelector('#p--welcome')
+let welcomeMessage = document.querySelector('#p--welcome');
 
 // GLOBAL VARIABLES LIVE HERE
-let customer, allRooms;
+let customer, roomData, allRooms;
+
 
 //  PROMISES LIVE HERE
 let promises = () => {
-    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/1')])
+    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/6')])
     .then(data => {
-        customer = new Customer(data[2]);
-        customer.retrieveAllBookings(data[1].bookings);
-        updateWelcome();
-        allRooms = data[0].rooms;
-    })
+        createAndWelcomeCustomer(data[2], data[1].bookings);
+        roomData = data[0].rooms;
+        displayUserBookings(customer.bookings, 'all');
+        updateRooms(data[1].bookings)
+        // console.log(retrieveAvailableRooms('2022/01/22'))
+    });
 }
+
 
 //  EVENT LISTENERS LIVE HERE
 bookingsNav.addEventListener('click', (event) => {
-    let bookings = retrieveBookingsForDisplay(event.target.dataset.cat);
-    displayBookings(bookings, event.target.dataset.cat);
+    if (event.target.dataset.cat) {
+        let bookings = retrieveUserBookingsForDisplay(event.target.dataset.cat);
+        displayUserBookings(bookings, event.target.dataset.cat);
+    }
+})
+
+bookRoomButton.addEventListener('click', () => {
+    hide(myBookingsSection);
+    show(bookRoomSection);
+    hide(bookRoomButton);
+    show(myBookingsButton);
+})
+
+myBookingsButton.addEventListener('click', () => {
+    show(myBookingsSection);
+    hide(bookRoomSection);
+    show(bookRoomButton);
+    hide(myBookingsButton);
+    let bookings = retrieveUserBookingsForDisplay('all');
+    displayUserBookings(bookings, 'all');
 })
 
 // HELPER FUNCTIONS LIVE HERE
+let show = (element) => {
+    element.classList.remove('hidden');
+}
+
+let hide = (element) => {
+    element.classList.add('hidden')
+}
+
+let createAndWelcomeCustomer = (userData, bookings) => {
+    customer = new Customer(userData);
+    customer.retrieveAllBookings(bookings);
+    updateWelcome();
+}
+
+let updateRooms = (bookings) => {
+    allRooms = [];
+    roomData.forEach(room => {
+        let roomInstance = new Room(room);
+        roomInstance.retrieveBookings(bookings);
+        allRooms.push(roomInstance);
+    });
+}
+
 let updateWelcome = () => {
     welcomeMessage.innerText = `Welcome, ${customer.name}!`;
 }
 
-let retrieveBookingsForDisplay = (type) => {
+let retrieveAvailableRooms = (date) => {
+    let availableRooms = allRooms.reduce((acc, room) => {
+        let booked = false;
+        room.bookings.forEach(booking => {
+            if (booking.date === date) {
+                booked = true;
+            }
+        })
+        if (booked === false) {
+            acc.push(room);
+        }
+        return acc;
+    }, []);
+    
+    return availableRooms;
+}
+
+let retrieveUserBookingsForDisplay = (type) => {
     bookingsSection.innerHTML = ''
     let bookings;
     if (type === 'all') {
@@ -58,7 +124,7 @@ let retrieveBookingsForDisplay = (type) => {
     return bookings;
 }
 
-let displayBookings = (bookings, type) => {
+let displayUserBookings = (bookings, type) => {
     bookingsTitle.innerText = `${type.toUpperCase()} BOOKINGS`
     bookings.forEach(booking => {
         let roomInfo = booking.retrieveRoomInfo();

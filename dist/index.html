@@ -12,13 +12,13 @@
       <p class="p--welcome" id="p--welcome"></p>
       <img src="./images/overlook-logo.png" class="image--overlook">
       <nav class="nav--header">
-        <button type="button" class="hidden">Book a Room</button>
-        <button type="button">My Bookings</button>
+        <button type="button" id="button--book-room">Book a Room</button>
+        <button type="button" class="hidden" id="button--my-bookings">My Bookings</button>
       </nav>
     </section>
   </header>
   <main>
-    <section class="section--my-bookings">
+    <section class="section--my-bookings" id="section--my-bookings">
       <h1>My Bookings</h1>
       <nav class="nav--bookings" id="nav--bookings">
         <a href="#" class="link--bookings" data-cat="past">Past Bookings</a>
@@ -28,20 +28,20 @@
       <section class="section--bookings">
         <h2 id="title--bookings"></h2>
         <p class="text--total-spent" id="text--total-spent"></p>
-        <section class="section--display-bookings"></section>
+        <section class="section--display-bookings" id="section--display-bookings"></section>
       </section>
     </section>
-    <section class="section--book-room hidden">
+    <section class="section--book-room hidden" id="section--book-room">
       <h3>Book a Room</h3>
       <section class="section--dates">
         <div class="input--date">
-          <label for="check-in">Check-In Date</label>
+          <label for="check-in">Select a Booking Date:</label>
           <input type="date" name="check-in" id="input--from">
         </div>
-        <div class="input--date">
+        <!-- <div class="input--date">
           <label for="check-in">Check-Out Date</label>
           <input type="date" name="check-in" id="input--from">
-        </div>
+        </div> -->
       </section>
       
       <section class="section--available-rooms">
