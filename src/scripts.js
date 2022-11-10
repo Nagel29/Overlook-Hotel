@@ -14,11 +14,15 @@ import Booking from './booking-class.js';
 import fetchData from './apiCalls.js';
 
 //  QUERYSELECTORS LIVE HERE
-let bookingsSection = document.querySelector('.section--display-bookings');
+let bookRoomButton = document.querySelector('#button--book-room');
+let myBookingsButton = document.querySelector('#button--my-bookings');
+let bookRoomSection = document.querySelector('#section--book-room');
+let bookingsSection = document.querySelector('#section--display-bookings');
+let myBookingsSection = document.querySelector('#section--my-bookings')
 let bookingsNav = document.querySelector('#nav--bookings');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
-let welcomeMessage = document.querySelector('#p--welcome')
+let welcomeMessage = document.querySelector('#p--welcome');
 
 // GLOBAL VARIABLES LIVE HERE
 let customer, allRooms;
@@ -42,7 +46,29 @@ bookingsNav.addEventListener('click', (event) => {
     }
 })
 
+bookRoomButton.addEventListener('click', () => {
+    hide(myBookingsSection);
+    show(bookRoomSection);
+    hide(bookRoomButton);
+    show(myBookingsButton);
+})
+
+myBookingsButton.addEventListener('click', () => {
+    show(myBookingsSection);
+    hide(bookRoomSection);
+    show(bookRoomButton);
+    hide(myBookingsButton);
+})
+
 // HELPER FUNCTIONS LIVE HERE
+let show = (element) => {
+    element.classList.remove('hidden');
+}
+
+let hide = (element) => {
+    element.classList.add('hidden')
+}
+
 let updateWelcome = () => {
     welcomeMessage.innerText = `Welcome, ${customer.name}!`;
 }
