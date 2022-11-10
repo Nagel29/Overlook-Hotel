@@ -46,7 +46,8 @@ class Customer {
             return acc;
         }, 0)
 
-        return Number(totalCost.toFixed(2));
+        let total = Number(totalCost.toFixed(2));
+        return total.toLocaleString("en-US")
     }
 }
 
