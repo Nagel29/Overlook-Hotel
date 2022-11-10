@@ -36,8 +36,10 @@ let promises = () => {
 
 //  EVENT LISTENERS LIVE HERE
 bookingsNav.addEventListener('click', (event) => {
-    let bookings = retrieveBookingsForDisplay(event.target.dataset.cat);
-    displayBookings(bookings, event.target.dataset.cat);
+    if (event.target.dataset.cat) {
+        let bookings = retrieveBookingsForDisplay(event.target.dataset.cat);
+        displayBookings(bookings, event.target.dataset.cat);
+    }
 })
 
 // HELPER FUNCTIONS LIVE HERE
