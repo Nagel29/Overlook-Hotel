@@ -12,6 +12,12 @@
   width: 45%;
 }
 
+.error--booking-message {
+  color: red;
+  font-size: 2vh;
+  text-align: center;;
+}
+
 .image--overlook {
   width: 29%;
   height: 100%;
@@ -21,12 +27,16 @@
   opacity: 1;
 }
 
+.image--book-room {
+  width: 100px;
+}
+
 .image--room {
   width: 30%;
   border: solid 1px saddlebrown;
 }
 
-.image--room:hover {
+.image--room:hover, .image--book-room:hover {
   transform: scale(3) translate(20%);
   cursor: pointer;
   -webkit-transition-property: all; 
@@ -76,6 +86,8 @@
 
 .section--available-rooms {
   border-top: 1px darkslategray solid;
+  background-color: #f3e1dd;
+
 }
 
 .section--book-room {
@@ -177,6 +189,23 @@ h2 {
 
 main {
   padding-top: 10%;
+}
+
+table {
+  width: 100%;
+  margin-top: 1.5%;
+  text-align: center;
+}
+
+td {
+  width: 10%;
+  font-size: 1.9vh;
+}
+
+th {
+  text-decoration: underline;
+  padding-bottom: 1%;
+  font-size: 2.05vh;
 }
 
 ul {

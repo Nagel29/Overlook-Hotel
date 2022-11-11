@@ -7,9 +7,9 @@ import './images/residential suite.png';
 import './images/suite.png';
 import './images/single room.png';
 import Customer from './customer-class.js';
-import customerData from './test-data/customer-data.js';
-import bookingData from './test-data/booking-data.js';
-// import roomData from './test-data/room-data.js';
+// import customerData from './test-data/customer-data.js';
+// import bookingData from './test-data/booking-data.js';
+// // import roomData from './test-data/room-data.js';
 import Booking from './booking-class.js';
 import fetchData from './apiCalls.js';
 import Room from './room-class';
@@ -17,13 +17,18 @@ import Room from './room-class';
 //  QUERYSELECTORS LIVE HERE
 let bookRoomButton = document.querySelector('#button--book-room');
 let myBookingsButton = document.querySelector('#button--my-bookings');
+let errorBookingMessage = document.querySelector('#error--booking-message');
+let dateInput = document.querySelector('#input--date')
+let bookingsNav = document.querySelector('#nav--bookings');
+let welcomeMessage = document.querySelector('#p--welcome');
+// let availableRooms = document.querySelector('#section--available-rooms');
 let bookRoomSection = document.querySelector('#section--book-room');
 let bookingsSection = document.querySelector('#section--display-bookings');
-let myBookingsSection = document.querySelector('#section--my-bookings')
-let bookingsNav = document.querySelector('#nav--bookings');
+let myBookingsSection = document.querySelector('#section--my-bookings');
+let roomsTableBody = document.querySelector('#table--rooms-body')
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
-let welcomeMessage = document.querySelector('#p--welcome');
+
 
 // GLOBAL VARIABLES LIVE HERE
 let customer, roomData, allRooms;
@@ -66,6 +71,24 @@ myBookingsButton.addEventListener('click', () => {
     displayUserBookings(bookings, 'all');
 })
 
+dateInput.addEventListener('input', (event) => {
+    let date = event.target.value;
+    date = date.replace(/[-]/g, '/');
+    if (checkDate(date) === 'invalid date') {
+        roomsTableBody.innerHTML = ''
+        return;
+    };
+    let availableRooms = retrieveAvailableRooms(date);
+    hide(errorBookingMessage);
+    displayAvailableRooms(availableRooms);
+})
+
+roomsTableBody.addEventListener('click' , (event) => {
+    if (event.target.dataset.room) {
+        console.log(event.target.dataset.room)
+    }
+})
+
 // HELPER FUNCTIONS LIVE HERE
 let show = (element) => {
     element.classList.remove('hidden');
@@ -73,6 +96,25 @@ let show = (element) => {
 
 let hide = (element) => {
     element.classList.add('hidden')
+}
+
+let getTodaysDate = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '/' + mm + '/' + dd;
+    return today;
+}
+
+let checkDate = (date) => {
+    let todaysDate = getTodaysDate();
+    if (date < todaysDate) {
+        show(errorBookingMessage);
+        errorBookingMessage.innerText = `Please select a date later than ${todaysDate}`;
+        return 'invalid date';
+    } 
 }
 
 let createAndWelcomeCustomer = (userData, bookings) => {
@@ -122,6 +164,22 @@ let retrieveUserBookingsForDisplay = (type) => {
         bookings = customer.retrievePastBookings();
     }
     return bookings;
+}
+
+let displayAvailableRooms = (availableRooms) => {
+    roomsTableBody.innerHTML = '';
+    availableRooms.forEach(room => {
+        roomsTableBody.innerHTML += `<tr>
+        <td>${room.number}</td>
+        <td><img class="image--book-room" src="./images/${room.roomType}.png"></td>
+        <td>${room.roomType}</td>
+        <td>${room.bidet}</td>
+        <td>${room.bedSize}</td>
+        <td>${room.numBeds}</td>
+        <td>${room.costPerNight}</td>
+        <td><a href="#" data-room="${room.number}">Book Now!</a><td>
+        </tr>`
+    })
 }
 
 let displayUserBookings = (bookings, type) => {

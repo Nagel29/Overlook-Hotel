@@ -33,19 +33,29 @@
     </section>
     <section class="section--book-room hidden" id="section--book-room">
       <h3>Book a Room</h3>
+      <p id="error--booking-message" class="error--booking-message hidden"></p>
       <section class="section--dates">
         <div class="input--date">
           <label for="check-in">Select a Booking Date:</label>
-          <input type="date" name="check-in" id="input--from">
+          <input type="date" name="check-in" id="input--date">
         </div>
-        <!-- <div class="input--date">
-          <label for="check-in">Check-Out Date</label>
-          <input type="date" name="check-in" id="input--from">
-        </div> -->
       </section>
-      
       <section class="section--available-rooms">
-
+        <table class="table--available-rooms">
+          <thead>
+            <tr>
+              <th>Room Number</th>
+              <th>Image</th>
+              <th>Room Type</th>
+              <th>Bidet</th>
+              <th>Bed Size</th>
+              <th>Number of Beds</th>
+              <th>Cost per Night</th>
+            </tr>
+          </thead>
+          <tbody id="table--rooms-body">
+          </tbody>
+        </table>
       </section>
     </section>
   </main>
