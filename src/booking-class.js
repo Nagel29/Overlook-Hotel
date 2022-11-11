@@ -5,6 +5,7 @@ class Booking {
         this.userID = bookingInfo.userID;
         this.roomNumber = bookingInfo.roomNumber;
         this.date = bookingInfo.date;
+        this.id = bookingInfo.id
     }
 
     generateID(latestID) {
@@ -28,7 +29,7 @@ class Booking {
             return acc;
         }, [])
         newID = newID.reverse().join('');
-        return newID
+        return newID;
     }
 
     retrieveRoomInfo() {
