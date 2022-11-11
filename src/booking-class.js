@@ -29,7 +29,7 @@ class Booking {
             return acc;
         }, [])
         newID = newID.reverse().join('');
-        return newID;
+        this.id = newID;
     }
 
     retrieveRoomInfo() {

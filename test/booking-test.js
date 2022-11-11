@@ -43,12 +43,15 @@ describe('Booking', function() {
 
   it('should be able to generate a new booking ID', function() {
     let lastID = '5fwrgu4i7k55hblzy';
-    expect(booking.generateID(lastID)).to.equal('5fwrgu4i7k55hblzz');
+    booking.generateID(lastID);
+    expect(booking.id).to.equal('5fwrgu4i7k55hblzz');
 
-    lastID = '5fwrgu4i7k55hblzz'
-    expect(booking.generateID(lastID)).to.equal('5fwrgu4i7k55hbl00');
+    lastID = '5fwrgu4i7k55hblzz';
+    booking.generateID(lastID);
+    expect(booking.id).to.equal('5fwrgu4i7k55hbl00');
 
-    lastID = '5fwrgu4i7k55hbl00'
-    expect(booking.generateID(lastID)).to.equal('5fwrgu4i7k55hbl01');
+    lastID = '5fwrgu4i7k55hbl00';
+    booking.generateID(lastID)
+    expect(booking.id).to.equal('5fwrgu4i7k55hbl01');
   });
 });
