@@ -4,4 +4,4 @@ let fetchData = (endPoint) => {
         .catch(error => console.log(error));
 }
 
-export default fetchData
+export default fetchData;

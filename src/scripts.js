@@ -30,6 +30,9 @@ let roomsTableBody = document.querySelector('#table--rooms-body')
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
 
+let popUpBox = document.querySelector('#popUpBox');
+let confirmBox = document.querySelector('#confirmBox');
+
 
 // GLOBAL VARIABLES LIVE HERE
 let customer, roomData, allRooms, newBooking, allBookings, latestID;
@@ -45,7 +48,7 @@ let promises = () => {
         latestID = '5fwrgu4i7k55hlzzz';
         newBooking = new Booking(allBookings.length - 1)
         newBooking.generateID(latestID);
-
+        // 
 
         roomData = data[0].rooms;
         displayUserBookings(customer.bookings, 'all');
@@ -93,7 +96,9 @@ dateInput.addEventListener('input', (event) => {
 
 roomsTableBody.addEventListener('click' , (event) => {
     if (event.target.dataset.room) {
-        console.log(event.target.dataset.room)
+        let desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
+        displayBookingConfirmation(desiredRoom);
+        console.log(desiredRoom);
     }
 })
 
@@ -129,6 +134,11 @@ let createAndWelcomeCustomer = (userData, bookings) => {
     customer = new Customer(userData);
     customer.retrieveAllBookings(bookings);
     updateWelcome();
+}
+
+let displayBookingConfirmation = (room) => {
+    show(popUpBox);
+    show(confirmBox);
 }
 
 let updateRooms = (bookings) => {
@@ -209,6 +219,36 @@ let displayUserBookings = (bookings, type) => {
     })
     totalSpent.innerText = `Total spent on ${type} rooms: $${customer.calculateTotalSpent(bookings, roomData)}`;
 }
+
+
+// var Alert = new CustomAlert();
+
+let click = document.querySelector('.btn')
+click.addEventListener('click', () => {
+    showAlert();
+})
+
+let showAlert = () => {
+    
+    popUpBox.style.display = "block";
+    document.getElementById('closeModal').innerHTML = '<button onclick="Alert.ok()">OK</button>';
+}
+
+
+// function CustomAlert(){
+//     this.render = function(){
+//         //Show Modal
+//         let popUpBox = document.getElementById('popUpBox');
+//         popUpBox.style.display = "block";
+//         //Close Modal
+//         document.getElementById('closeModal').innerHTML = '<button onclick="Alert.ok()">OK</button>';
+//     }
+  
+//     this.ok = function(){
+//         document.getElementById('popUpBox').style.display = "none";
+//         document.getElementById('popUpOverlay').style.display = "none";
+//     }
+// }
 
 window.addEventListener('load', promises())
 
