@@ -74,11 +74,11 @@ myBookingsButton.addEventListener('click', () => {
 dateInput.addEventListener('input', (event) => {
     let date = event.target.value;
     date = date.replace(/[-]/g, '/');
-    let availableRooms = retrieveAvailableRooms(date);
-    if (availableRooms === 'invalid date') {
+    if (checkDate(date) === 'invalid date') {
         roomsTableBody.innerHTML = ''
         return;
-    }
+    };
+    let availableRooms = retrieveAvailableRooms(date);
     hide(errorBookingMessage);
     displayAvailableRooms(availableRooms);
 })
@@ -108,6 +108,15 @@ let getTodaysDate = () => {
     return today;
 }
 
+let checkDate = (date) => {
+    let todaysDate = getTodaysDate();
+    if (date < todaysDate) {
+        show(errorBookingMessage);
+        errorBookingMessage.innerText = `Please select a date later than ${todaysDate}`;
+        return 'invalid date';
+    } 
+}
+
 let createAndWelcomeCustomer = (userData, bookings) => {
     customer = new Customer(userData);
     customer.retrieveAllBookings(bookings);
@@ -128,12 +137,6 @@ let updateWelcome = () => {
 }
 
 let retrieveAvailableRooms = (date) => {
-    let todaysDate = getTodaysDate();
-    if (date < todaysDate) {
-        show(errorBookingMessage);
-        errorBookingMessage.innerText = `Please select a date later than ${todaysDate}`;
-        return 'invalid date';
-    } 
     let availableRooms = allRooms.reduce((acc, room) => {
         let booked = false;
         room.bookings.forEach(booking => {
