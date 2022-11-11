@@ -13,6 +13,7 @@ import Customer from './customer-class.js';
 import Booking from './booking-class.js';
 import fetchData from './apiCalls.js';
 import Room from './room-class';
+import { ka } from 'date-fns/locale';
 
 //  QUERYSELECTORS LIVE HERE
 let bookRoomButton = document.querySelector('#button--book-room');
@@ -31,14 +32,21 @@ let bookingsTitle = document.querySelector('#title--bookings');
 
 
 // GLOBAL VARIABLES LIVE HERE
-let customer, roomData, allRooms;
+let customer, roomData, allRooms, newBooking, allBookings, latestID;
 
 
 //  PROMISES LIVE HERE
 let promises = () => {
     Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/6')])
     .then(data => {
-        createAndWelcomeCustomer(data[2], data[1].bookings);
+        allBookings = data[1].bookings;
+        createAndWelcomeCustomer(data[2], allBookings);
+        // MOVE THIS LINE TO HAPPEN AT THE ACTUAL BOOKINGS
+        latestID = '5fwrgu4i7k55hlzzz';
+        newBooking = new Booking(allBookings.length - 1)
+        newBooking.generateID(latestID);
+
+
         roomData = data[0].rooms;
         displayUserBookings(customer.bookings, 'all');
         updateRooms(data[1].bookings)
@@ -112,7 +120,7 @@ let checkDate = (date) => {
     let todaysDate = getTodaysDate();
     if (date < todaysDate) {
         show(errorBookingMessage);
-        errorBookingMessage.innerText = `Please select a date later than ${todaysDate}`;
+        errorBookingMessage.innerText = `Please select a date no earlier than ${todaysDate}`;
         return 'invalid date';
     } 
 }
