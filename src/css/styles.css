@@ -80,6 +80,8 @@
 
 .section--available-rooms {
   border-top: 1px darkslategray solid;
+  background-color: #f3e1dd;
+
 }
 
 .section--book-room {
@@ -184,11 +186,20 @@ main {
 }
 
 table {
+  width: 100%;
+  margin-top: 1.5%;
   text-align: center;
 }
 
 td {
   width: 10%;
+  font-size: 1.9vh;
+}
+
+th {
+  text-decoration: underline;
+  padding-bottom: 1%;
+  font-size: 2.05vh;
 }
 
 ul {

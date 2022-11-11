@@ -146,6 +146,7 @@ let displayAvailableRooms = (availableRooms) => {
         <td>${room.bedSize}</td>
         <td>${room.numBeds}</td>
         <td>${room.costPerNight}</td>
+        <td><a href="#" data-room="${room.number}">Book Now!</a><td>
         </tr>`
     })
 }
