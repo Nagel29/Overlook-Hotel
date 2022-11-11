@@ -12,6 +12,12 @@
   width: 45%;
 }
 
+.error--booking-message {
+  color: red;
+  font-size: 2vh;
+  text-align: center;;
+}
+
 .image--overlook {
   width: 29%;
   height: 100%;

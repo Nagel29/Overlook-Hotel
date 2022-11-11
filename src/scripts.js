@@ -76,8 +76,10 @@ dateInput.addEventListener('input', (event) => {
     date = date.replace(/[-]/g, '/');
     let availableRooms = retrieveAvailableRooms(date);
     if (availableRooms === 'invalid date') {
+        roomsTableBody.innerHTML = ''
         return;
     }
+    hide(errorBookingMessage);
     displayAvailableRooms(availableRooms);
 })
 
@@ -127,8 +129,6 @@ let updateWelcome = () => {
 
 let retrieveAvailableRooms = (date) => {
     let todaysDate = getTodaysDate();
-    console.log(date)
-    console.log(todaysDate)
     if (date < todaysDate) {
         show(errorBookingMessage);
         errorBookingMessage.innerText = `Please select a date later than ${todaysDate}`;
