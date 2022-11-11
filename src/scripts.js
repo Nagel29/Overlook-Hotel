@@ -140,7 +140,7 @@ let displayAvailableRooms = (availableRooms) => {
     availableRooms.forEach(room => {
         roomsTableBody.innerHTML += `<tr>
         <td>${room.number}</td>
-        <td>${room.number}</td>
+        <td><img class="image--book-room" src="./images/${room.roomType}.png"></td>
         <td>${room.roomType}</td>
         <td>${room.bidet}</td>
         <td>${room.bedSize}</td>

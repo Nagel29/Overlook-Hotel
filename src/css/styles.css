@@ -21,12 +21,16 @@
   opacity: 1;
 }
 
+.image--book-room {
+  width: 100px;
+}
+
 .image--room {
   width: 30%;
   border: solid 1px saddlebrown;
 }
 
-.image--room:hover {
+.image--room:hover, .image--book-room:hover {
   transform: scale(3) translate(20%);
   cursor: pointer;
   -webkit-transition-property: all; 
@@ -177,6 +181,14 @@ h2 {
 
 main {
   padding-top: 10%;
+}
+
+table {
+  text-align: center;
+}
+
+td {
+  width: 10%;
 }
 
 ul {
