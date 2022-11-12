@@ -20,6 +20,7 @@ let myBookingsButton = document.querySelector('#button--my-bookings');
 let confirmationButtons = document.querySelector('#container--confirmation-buttons');
 let errorBookingMessage = document.querySelector('#error--booking-message');
 let dateInput = document.querySelector('#input--date');
+let roomTypeInput = document.querySelector('#input--roomType');
 let bookingsNav = document.querySelector('#nav--bookings');
 let welcomeMessage = document.querySelector('#p--welcome');
 let popUpBox = document.querySelector('#popUpBox');
@@ -33,7 +34,7 @@ let bookingsTitle = document.querySelector('#title--bookings');
 
 
 // GLOBAL VARIABLES LIVE HERE
-let customer, roomData, allRooms, newBooking, allBookings, latestID, date, desiredRoom;
+let customer, roomData, allRooms, allBookings, date, desiredRoom, roomTypeFilter;
 
 
 //  PROMISES LIVE HERE
@@ -105,7 +106,7 @@ dateInput.addEventListener('input', (event) => {
         roomsTableBody.innerHTML = ''
         return;
     };
-    let availableRooms = retrieveAvailableRooms(date);
+    let availableRooms = retrieveAvailableRooms(date, roomTypeFilter);
     hide(errorBookingMessage);
     displayAvailableRooms(availableRooms);
 })
@@ -124,6 +125,13 @@ roomsTableBody.addEventListener('click' , (event) => {
         desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
         displayBookingConfirmation(desiredRoom);
     }
+})
+
+roomTypeInput.addEventListener('input', (event) => {
+    roomTypeFilter = event.target.value;
+    let availableRooms = retrieveAvailableRooms(date, roomTypeFilter);
+    hide(errorBookingMessage);
+    displayAvailableRooms(availableRooms);
 })
 
 // HELPER FUNCTIONS LIVE HERE
@@ -179,8 +187,14 @@ let updateWelcome = () => {
 }
 
 let retrieveAvailableRooms = (date, roomType) => {
-    let availableRooms = allRooms.filter(room => room.roomType === roomType);
-    availableRooms = allRooms.reduce((acc, room) => {
+    let availableRoomsByType, rooms;
+    if (roomType) {
+        availableRoomsByType = allRooms.filter(room => room.roomType === roomType);
+        rooms = availableRoomsByType
+    } else {
+        rooms = allRooms;
+    }
+    let availableRooms = rooms.reduce((acc, room) => {
         let booked = false;
         room.bookings.forEach(booking => {
             if (booking.date === date) {
