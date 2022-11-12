@@ -38,7 +38,7 @@ let customer, roomData, allRooms, newBooking, allBookings, latestID, date, desir
 
 //  PROMISES LIVE HERE
 let promises = () => {
-    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/6')])
+    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/1')])
     .then(data => {
         allBookings = data[1].bookings;
         createAndWelcomeCustomer(data[2], allBookings);
@@ -54,11 +54,14 @@ let bookRoomPromise = (bookingInfo) => {
     .then(data => {
         allBookings = data.bookings;
         updateRooms(allBookings);
+        customer.retrieveAllBookings(allBookings);
         show(myBookingsSection);
         hide(bookRoomSection);
         show(bookRoomButton);
         hide(myBookingsButton);
-        displayUserBookings(customer.bookings, 'all');
+        hide(popUpBox);
+        retrieveUserBookingsForDisplay('future')
+        displayUserBookings(customer.bookings, 'future');
     })
     
 }
