@@ -11,47 +11,59 @@ import Customer from './customer-class.js';
 // import bookingData from './test-data/booking-data.js';
 // // import roomData from './test-data/room-data.js';
 import Booking from './booking-class.js';
-import fetchData from './apiCalls.js';
+import { fetchData, postBooking } from './apiCalls.js';
 import Room from './room-class';
-import { ka } from 'date-fns/locale';
 
 //  QUERYSELECTORS LIVE HERE
 let bookRoomButton = document.querySelector('#button--book-room');
 let myBookingsButton = document.querySelector('#button--my-bookings');
+let confirmationButtons = document.querySelector('#container--confirmation-buttons');
 let errorBookingMessage = document.querySelector('#error--booking-message');
-let dateInput = document.querySelector('#input--date')
+let dateInput = document.querySelector('#input--date');
 let bookingsNav = document.querySelector('#nav--bookings');
 let welcomeMessage = document.querySelector('#p--welcome');
-// let availableRooms = document.querySelector('#section--available-rooms');
+let popUpBox = document.querySelector('#popUpBox');
 let bookRoomSection = document.querySelector('#section--book-room');
 let bookingsSection = document.querySelector('#section--display-bookings');
 let myBookingsSection = document.querySelector('#section--my-bookings');
-let roomsTableBody = document.querySelector('#table--rooms-body')
+let roomsTableBody = document.querySelector('#table--rooms-body');
+let popUpText =document.querySelector('#text--popUp');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
 
 
 // GLOBAL VARIABLES LIVE HERE
-let customer, roomData, allRooms, newBooking, allBookings, latestID;
+let customer, roomData, allRooms, newBooking, allBookings, latestID, date, desiredRoom;
 
 
 //  PROMISES LIVE HERE
 let promises = () => {
-    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/6')])
+    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/1')])
     .then(data => {
         allBookings = data[1].bookings;
         createAndWelcomeCustomer(data[2], allBookings);
-        // MOVE THIS LINE TO HAPPEN AT THE ACTUAL BOOKINGS
-        latestID = '5fwrgu4i7k55hlzzz';
-        newBooking = new Booking(allBookings.length - 1)
-        newBooking.generateID(latestID);
-
-
         roomData = data[0].rooms;
+        updateRooms(allBookings)
         displayUserBookings(customer.bookings, 'all');
-        updateRooms(data[1].bookings)
-        // console.log(retrieveAvailableRooms('2022/01/22'))
     });
+}
+
+let bookRoomPromise = (bookingInfo) => {
+    Promise.all([postBooking(bookingInfo)])
+    .then(data => fetchData('bookings'))
+    .then(data => {
+        allBookings = data.bookings;
+        updateRooms(allBookings);
+        customer.retrieveAllBookings(allBookings);
+        show(myBookingsSection);
+        hide(bookRoomSection);
+        show(bookRoomButton);
+        hide(myBookingsButton);
+        hide(popUpBox);
+        retrieveUserBookingsForDisplay('future')
+        displayUserBookings(customer.bookings, 'future');
+    })
+    
 }
 
 
@@ -65,9 +77,38 @@ bookingsNav.addEventListener('click', (event) => {
 
 bookRoomButton.addEventListener('click', () => {
     hide(myBookingsSection);
+    dateInput.value = '';
+    displayAvailableRooms([]);
     show(bookRoomSection);
     hide(bookRoomButton);
     show(myBookingsButton);
+})
+
+confirmationButtons.addEventListener('click', (event) => {
+    if (event.target.id === 'button--confirm') {
+        let bookingInfo = { userID: customer.id, roomNumber: desiredRoom.number, date: date}
+        //NEED TO CHECK FOR AVAILABILITY FIRST
+        bookRoomPromise(bookingInfo);
+        // newBooking = new Booking(bookingInfo);
+        // // latestID = allBookings[allBookings.length - 1].id;
+        // // newBooking.generateID(latestID);
+        // allBookings.push(newBooking)
+        // console.log(newBooking)
+    } else if (event.target.id === 'button--no') {
+        hide(popUpBox);
+    }
+})
+
+dateInput.addEventListener('input', (event) => {
+    date = event.target.value;
+    date = date.replace(/[-]/g, '/');
+    if (checkDate(date) === 'invalid date') {
+        roomsTableBody.innerHTML = ''
+        return;
+    };
+    let availableRooms = retrieveAvailableRooms(date);
+    hide(errorBookingMessage);
+    displayAvailableRooms(availableRooms);
 })
 
 myBookingsButton.addEventListener('click', () => {
@@ -79,21 +120,10 @@ myBookingsButton.addEventListener('click', () => {
     displayUserBookings(bookings, 'all');
 })
 
-dateInput.addEventListener('input', (event) => {
-    let date = event.target.value;
-    date = date.replace(/[-]/g, '/');
-    if (checkDate(date) === 'invalid date') {
-        roomsTableBody.innerHTML = ''
-        return;
-    };
-    let availableRooms = retrieveAvailableRooms(date);
-    hide(errorBookingMessage);
-    displayAvailableRooms(availableRooms);
-})
-
 roomsTableBody.addEventListener('click' , (event) => {
     if (event.target.dataset.room) {
-        console.log(event.target.dataset.room)
+        desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
+        displayBookingConfirmation(desiredRoom);
     }
 })
 
@@ -129,6 +159,11 @@ let createAndWelcomeCustomer = (userData, bookings) => {
     customer = new Customer(userData);
     customer.retrieveAllBookings(bookings);
     updateWelcome();
+}
+
+let displayBookingConfirmation = (desiredRoom) => {
+    show(popUpBox);
+    popUpText.innerHTML = `Are you sure you would like to book the ${desiredRoom.roomType} for $${desiredRoom.costPerNight}?`
 }
 
 let updateRooms = (bookings) => {
@@ -193,7 +228,7 @@ let displayAvailableRooms = (availableRooms) => {
 let displayUserBookings = (bookings, type) => {
     bookingsTitle.innerText = `${type.toUpperCase()} BOOKINGS`
     bookings.forEach(booking => {
-        let roomInfo = booking.retrieveRoomInfo();
+        let roomInfo = booking.retrieveRoomInfo(allRooms);
         bookingsSection.innerHTML += 
         `<div class="card--booking">
             <ul>
