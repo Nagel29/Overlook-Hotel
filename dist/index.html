@@ -35,9 +35,19 @@
       <h3>Book a Room</h3>
       <p id="error--booking-message" class="error--booking-message hidden"></p>
       <section class="section--dates">
-        <div class="input--date">
+        <div class="input--room-search">
           <label for="check-in">Select a Booking Date:</label>
           <input type="date" name="check-in" id="input--date">
+        </div>
+        <div class="input--room-search">
+          <label for="roomType">Filter by Room Type: </label>
+          <input list="list--roomType" name="roomType" id="input--roomType" required>
+          <datalist id="list--roomType">
+            <option value="junior suite"></option>
+            <option value="single room"></option>
+            <option value="residential suite"></option>
+            <option value="suite"></option>
+          </datalist>
         </div>
       </section>
       <section class="section--available-rooms">

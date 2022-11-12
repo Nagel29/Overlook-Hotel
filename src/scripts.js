@@ -9,8 +9,8 @@ import './images/single room.png';
 import Customer from './customer-class.js';
 // import customerData from './test-data/customer-data.js';
 // import bookingData from './test-data/booking-data.js';
-// // import roomData from './test-data/room-data.js';
-import Booking from './booking-class.js';
+// import roomData from './test-data/room-data.js';
+// import Booking from './booking-class.js';
 import { fetchData, postBooking } from './apiCalls.js';
 import Room from './room-class';
 
@@ -60,8 +60,7 @@ let bookRoomPromise = (bookingInfo) => {
         show(bookRoomButton);
         hide(myBookingsButton);
         hide(popUpBox);
-        retrieveUserBookingsForDisplay('future')
-        displayUserBookings(customer.bookings, 'future');
+        displayUserBookings(retrieveUserBookingsForDisplay('future'), 'future');
     })
     
 }
@@ -179,8 +178,9 @@ let updateWelcome = () => {
     welcomeMessage.innerText = `Welcome, ${customer.name}!`;
 }
 
-let retrieveAvailableRooms = (date) => {
-    let availableRooms = allRooms.reduce((acc, room) => {
+let retrieveAvailableRooms = (date, roomType) => {
+    let availableRooms = allRooms.filter(room => room.roomType === roomType);
+    availableRooms = allRooms.reduce((acc, room) => {
         let booked = false;
         room.bookings.forEach(booking => {
             if (booking.date === date) {

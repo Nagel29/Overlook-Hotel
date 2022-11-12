@@ -12,6 +12,8 @@ class Room {
         this.bookings = bookingsData.filter(booking => booking.roomNumber === this.number);
     }
 
+    
+
 }
 
 export default Room

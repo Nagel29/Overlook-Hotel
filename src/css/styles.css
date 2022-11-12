@@ -70,7 +70,7 @@
   -webkit-transition-timing-function: ease; 
 }
 
-.input--date {
+.input--room-search {
   display:flex;
   flex-direction:column;
   margin-left: 1%;;
