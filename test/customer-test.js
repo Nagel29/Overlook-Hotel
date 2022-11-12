@@ -9,9 +9,9 @@ describe('Customer', function() {
   let customer, allRooms;
 
   beforeEach(() => {
-    customer = new Customer(customerData)
+    customer = new Customer(customerData);
     allRooms = roomData;
-    customer.retrieveAllBookings(bookingData)
+    customer.retrieveAllBookings(bookingData);
   });
 
   it('should be a function', function() {

@@ -37,7 +37,7 @@ let popUpBox = document.querySelector('#popUpBox');
 
 
 // GLOBAL VARIABLES LIVE HERE
-let customer, roomData, allRooms, newBooking, allBookings, latestID;
+let customer, roomData, allRooms, newBooking, allBookings, latestID, date, desiredRoom;
 
 
 //  PROMISES LIVE HERE
@@ -47,8 +47,8 @@ let promises = () => {
         allBookings = data[1].bookings;
         createAndWelcomeCustomer(data[2], allBookings);
         roomData = data[0].rooms;
-        displayUserBookings(customer.bookings, 'all');
         updateRooms(data[1].bookings)
+        displayUserBookings(customer.bookings, 'all');
     });
 }
 
@@ -70,15 +70,16 @@ bookRoomButton.addEventListener('click', () => {
 
 confirmationButtons.addEventListener('click', (event) => {
     if (event.target.id === 'button--confirm') {
-        // newBooking = new Booking(allBookings.length - 1);
-        // newBooking.generateID(latestID);
+        let bookingInfo = { userID: customer.id, roomNumber: desiredRoom.number, date: date}
+        newBooking = new Booking(bookingInfo);
+        newBooking.generateID(latestID);
     } else if (event.target.id === 'button--no') {
         hide(popUpBox);
     }
 })
 
 dateInput.addEventListener('input', (event) => {
-    let date = event.target.value;
+    date = event.target.value;
     date = date.replace(/[-]/g, '/');
     if (checkDate(date) === 'invalid date') {
         roomsTableBody.innerHTML = ''
@@ -100,7 +101,7 @@ myBookingsButton.addEventListener('click', () => {
 
 roomsTableBody.addEventListener('click' , (event) => {
     if (event.target.dataset.room) {
-        let desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
+        desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
         displayBookingConfirmation(desiredRoom);
     }
 })
@@ -206,7 +207,7 @@ let displayAvailableRooms = (availableRooms) => {
 let displayUserBookings = (bookings, type) => {
     bookingsTitle.innerText = `${type.toUpperCase()} BOOKINGS`
     bookings.forEach(booking => {
-        let roomInfo = booking.retrieveRoomInfo();
+        let roomInfo = booking.retrieveRoomInfo(allRooms);
         bookingsSection.innerHTML += 
         `<div class="card--booking">
             <ul>
