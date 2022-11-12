@@ -18,20 +18,22 @@ import { ka } from 'date-fns/locale';
 //  QUERYSELECTORS LIVE HERE
 let bookRoomButton = document.querySelector('#button--book-room');
 let myBookingsButton = document.querySelector('#button--my-bookings');
+let confirmationButtons = document.querySelector('#container--confirmation-buttons');
 let errorBookingMessage = document.querySelector('#error--booking-message');
-let dateInput = document.querySelector('#input--date')
+let dateInput = document.querySelector('#input--date');
 let bookingsNav = document.querySelector('#nav--bookings');
 let welcomeMessage = document.querySelector('#p--welcome');
 // let availableRooms = document.querySelector('#section--available-rooms');
 let bookRoomSection = document.querySelector('#section--book-room');
 let bookingsSection = document.querySelector('#section--display-bookings');
 let myBookingsSection = document.querySelector('#section--my-bookings');
-let roomsTableBody = document.querySelector('#table--rooms-body')
+let roomsTableBody = document.querySelector('#table--rooms-body');
+let popUpText =document.querySelector('#text--popUp');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
 
 let popUpBox = document.querySelector('#popUpBox');
-let confirmBox = document.querySelector('#confirmBox');
+
 
 
 // GLOBAL VARIABLES LIVE HERE
@@ -44,16 +46,9 @@ let promises = () => {
     .then(data => {
         allBookings = data[1].bookings;
         createAndWelcomeCustomer(data[2], allBookings);
-        // MOVE THIS LINE TO HAPPEN AT THE ACTUAL BOOKINGS
-        latestID = '5fwrgu4i7k55hlzzz';
-        newBooking = new Booking(allBookings.length - 1)
-        newBooking.generateID(latestID);
-        // 
-
         roomData = data[0].rooms;
         displayUserBookings(customer.bookings, 'all');
         updateRooms(data[1].bookings)
-        // console.log(retrieveAvailableRooms('2022/01/22'))
     });
 }
 
@@ -73,13 +68,13 @@ bookRoomButton.addEventListener('click', () => {
     show(myBookingsButton);
 })
 
-myBookingsButton.addEventListener('click', () => {
-    show(myBookingsSection);
-    hide(bookRoomSection);
-    show(bookRoomButton);
-    hide(myBookingsButton);
-    let bookings = retrieveUserBookingsForDisplay('all');
-    displayUserBookings(bookings, 'all');
+confirmationButtons.addEventListener('click', (event) => {
+    if (event.target.id === 'button--confirm') {
+        // newBooking = new Booking(allBookings.length - 1);
+        // newBooking.generateID(latestID);
+    } else if (event.target.id === 'button--no') {
+        hide(popUpBox);
+    }
 })
 
 dateInput.addEventListener('input', (event) => {
@@ -94,11 +89,19 @@ dateInput.addEventListener('input', (event) => {
     displayAvailableRooms(availableRooms);
 })
 
+myBookingsButton.addEventListener('click', () => {
+    show(myBookingsSection);
+    hide(bookRoomSection);
+    show(bookRoomButton);
+    hide(myBookingsButton);
+    let bookings = retrieveUserBookingsForDisplay('all');
+    displayUserBookings(bookings, 'all');
+})
+
 roomsTableBody.addEventListener('click' , (event) => {
     if (event.target.dataset.room) {
         let desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
         displayBookingConfirmation(desiredRoom);
-        console.log(desiredRoom);
     }
 })
 
@@ -136,9 +139,9 @@ let createAndWelcomeCustomer = (userData, bookings) => {
     updateWelcome();
 }
 
-let displayBookingConfirmation = (room) => {
+let displayBookingConfirmation = (desiredRoom) => {
     show(popUpBox);
-    show(confirmBox);
+    popUpText.innerHTML = `Are you sure you would like to book the ${desiredRoom.roomType} for $${desiredRoom.costPerNight}?`
 }
 
 let updateRooms = (bookings) => {
@@ -219,36 +222,6 @@ let displayUserBookings = (bookings, type) => {
     })
     totalSpent.innerText = `Total spent on ${type} rooms: $${customer.calculateTotalSpent(bookings, roomData)}`;
 }
-
-
-// var Alert = new CustomAlert();
-
-let click = document.querySelector('.btn')
-click.addEventListener('click', () => {
-    showAlert();
-})
-
-let showAlert = () => {
-    
-    popUpBox.style.display = "block";
-    document.getElementById('closeModal').innerHTML = '<button onclick="Alert.ok()">OK</button>';
-}
-
-
-// function CustomAlert(){
-//     this.render = function(){
-//         //Show Modal
-//         let popUpBox = document.getElementById('popUpBox');
-//         popUpBox.style.display = "block";
-//         //Close Modal
-//         document.getElementById('closeModal').innerHTML = '<button onclick="Alert.ok()">OK</button>';
-//     }
-  
-//     this.ok = function(){
-//         document.getElementById('popUpBox').style.display = "none";
-//         document.getElementById('popUpOverlay').style.display = "none";
-//     }
-// }
 
 window.addEventListener('load', promises())
 

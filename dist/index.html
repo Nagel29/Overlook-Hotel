@@ -12,8 +12,8 @@
       <p class="p--welcome" id="p--welcome"></p>
       <img src="./images/overlook-logo.png" class="image--overlook">
       <nav class="nav--header">
-        <button type="button" id="button--book-room">Book a Room</button>
-        <button type="button" class="hidden" id="button--my-bookings">My Bookings</button>
+        <button type="button" class="button--nav" id="button--book-room">Book a Room</button>
+        <button type="button" class="button--nav hidden" id="button--my-bookings">My Bookings</button>
       </nav>
     </section>
   </header>
@@ -41,20 +41,13 @@
         </div>
       </section>
       <section class="section--available-rooms">
-
-        <div id="popUpOverlay"></div>
         <div id="popUpBox" class="popUpBox hidden">
-        <div id="box">
-        <i class="fas fa-check-circle fa-5x"></i>
-        <h1>Here Goes Your Popup</h1>
-        <button id="confirmBox" class="confirmBox">OK</button>
-        <div id="closeModal">
-          
+          <h4 id="text--popUp"></h4>
+          <div id="container--confirmation-buttons" class="container--confirmation-buttons">
+            <button id="button--confirm" class="button--confirmation">Yes</button>
+            <button id="button--no" class="button--confirmation">No</button>
+          </div>
         </div>
-        </div>
-        </div>
-        <button class="btn hidden">Show Alert</button>
-
         <table class="table--available-rooms">
           <thead>
             <tr>
