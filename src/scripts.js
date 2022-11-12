@@ -11,9 +11,8 @@ import Customer from './customer-class.js';
 // import bookingData from './test-data/booking-data.js';
 // // import roomData from './test-data/room-data.js';
 import Booking from './booking-class.js';
-import fetchData from './apiCalls.js';
+import { fetchData, postBooking } from './apiCalls.js';
 import Room from './room-class';
-import { ka } from 'date-fns/locale';
 
 //  QUERYSELECTORS LIVE HERE
 let bookRoomButton = document.querySelector('#button--book-room');
@@ -23,7 +22,7 @@ let errorBookingMessage = document.querySelector('#error--booking-message');
 let dateInput = document.querySelector('#input--date');
 let bookingsNav = document.querySelector('#nav--bookings');
 let welcomeMessage = document.querySelector('#p--welcome');
-// let availableRooms = document.querySelector('#section--available-rooms');
+let popUpBox = document.querySelector('#popUpBox');
 let bookRoomSection = document.querySelector('#section--book-room');
 let bookingsSection = document.querySelector('#section--display-bookings');
 let myBookingsSection = document.querySelector('#section--my-bookings');
@@ -31,9 +30,6 @@ let roomsTableBody = document.querySelector('#table--rooms-body');
 let popUpText =document.querySelector('#text--popUp');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
-
-let popUpBox = document.querySelector('#popUpBox');
-
 
 
 // GLOBAL VARIABLES LIVE HERE
@@ -47,9 +43,24 @@ let promises = () => {
         allBookings = data[1].bookings;
         createAndWelcomeCustomer(data[2], allBookings);
         roomData = data[0].rooms;
-        updateRooms(data[1].bookings)
+        updateRooms(allBookings)
         displayUserBookings(customer.bookings, 'all');
     });
+}
+
+let bookRoomPromise = (bookingInfo) => {
+    Promise.all([postBooking(bookingInfo)])
+    .then(data => fetchData('bookings'))
+    .then(data => {
+        allBookings = data.bookings;
+        updateRooms(allBookings);
+        show(myBookingsSection);
+        hide(bookRoomSection);
+        show(bookRoomButton);
+        hide(myBookingsButton);
+        displayUserBookings(customer.bookings, 'all');
+    })
+    
 }
 
 
@@ -63,6 +74,8 @@ bookingsNav.addEventListener('click', (event) => {
 
 bookRoomButton.addEventListener('click', () => {
     hide(myBookingsSection);
+    dateInput.value = '';
+    displayAvailableRooms([]);
     show(bookRoomSection);
     hide(bookRoomButton);
     show(myBookingsButton);
@@ -71,8 +84,13 @@ bookRoomButton.addEventListener('click', () => {
 confirmationButtons.addEventListener('click', (event) => {
     if (event.target.id === 'button--confirm') {
         let bookingInfo = { userID: customer.id, roomNumber: desiredRoom.number, date: date}
-        newBooking = new Booking(bookingInfo);
-        newBooking.generateID(latestID);
+        //NEED TO CHECK FOR AVAILABILITY FIRST
+        bookRoomPromise(bookingInfo);
+        // newBooking = new Booking(bookingInfo);
+        // // latestID = allBookings[allBookings.length - 1].id;
+        // // newBooking.generateID(latestID);
+        // allBookings.push(newBooking)
+        // console.log(newBooking)
     } else if (event.target.id === 'button--no') {
         hide(popUpBox);
     }
