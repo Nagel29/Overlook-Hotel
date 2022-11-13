@@ -96,9 +96,11 @@ confirmationButtons.addEventListener('click', (event) => {
         let bookingInfo = { userID: customer.id, roomNumber: desiredRoom.number, date: date}
         bookRoomPromise(bookingInfo);
         body.style = "overflow: visible"
+        resetPopUpFocus();
     } else if (event.target.id === 'button--no') {
         body.style = "overflow: visible"
         hide(popUpBox);
+        resetPopUpFocus();
     }
 })
 
@@ -129,11 +131,7 @@ roomsTableBody.addEventListener('click' , (event) => {
     if (event.target.dataset.room) {
         desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
         displayBookingConfirmation(desiredRoom);
-        let nonFocusable = document.querySelectorAll('*:not(#popUpBox, #text--popUp, #container--confirmation-buttons, #button--confirm, #button--no)');
-
-        nonFocusable.forEach(node => node.setAttribute("aria-hidden", true));
-        nonFocusable.forEach(node => node.setAttribute("aria-disabled", true));
-        nonFocusable.forEach(node => node.setAttribute("tabindex", -1));
+        focusOnPopUp();
     }
 })
 
@@ -152,6 +150,19 @@ let show = (element) => {
 
 let hide = (element) => {
     element.classList.add('hidden')
+}
+
+let focusOnPopUp = () => {
+    let nonFocusable = document.querySelectorAll('*:not(#popUpBox, #text--popUp, #container--confirmation-buttons, #button--confirm, #button--no)');
+    nonFocusable.forEach(node => node.setAttribute("aria-disabled", true));
+    nonFocusable.forEach(node => node.setAttribute("tabindex", -1));
+}
+
+let resetPopUpFocus = () => {
+    let nonFocusable = document.querySelectorAll('*:not(#popUpBox, #text--popUp, #container--confirmation-buttons, #button--confirm, #button--no)');
+    nonFocusable.forEach(node => node.removeAttribute("aria-hidden"));
+    nonFocusable.forEach(node => node.removeAttribute("aria-disabled"));
+    nonFocusable.forEach(node => node.removeAttribute("tabindex"));
 }
 
 let getTodaysDate = () => {
@@ -241,13 +252,13 @@ let displayAvailableRooms = (availableRooms) => {
     availableRooms.forEach(room => {
         roomsTableBody.innerHTML += `<tr>
         <td>${room.number}</td>
-        <td><img class="image--book-room" src="./images/${room.roomType}.png"></td>
+        <td><img class="image--book-room" src="./images/${room.roomType}.png" alt="${room.roomType}"></td>
         <td>${room.roomType}</td>
         <td>${room.bidet}</td>
         <td>${room.bedSize}</td>
         <td>${room.numBeds}</td>
         <td>${room.costPerNight}</td>
-        <td><a href="#" id="link--book-now" data-room="${room.number}">Book Now!</a><td>
+        <td><a href="#" id="link--book-now-room-${room.number}" data-room="${room.number}" role="link">Book Now!</a><td>
         </tr>`
     })
 }

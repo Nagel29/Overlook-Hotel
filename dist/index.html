@@ -10,7 +10,7 @@
     <!-- <h1>Welcome to The Overlook Hotel</h1> -->
     <section class="section--header">
       <p class="p--welcome" id="p--welcome"></p>
-      <img src="./images/overlook-logo.png" class="image--overlook">
+      <img src="./images/overlook-logo.png" alt="overlook hotel logo" class="image--overlook">
       <nav class="nav--header">
         <button type="button" class="button--nav" id="button--book-room">Book a Room</button>
         <button type="button" class="button--nav hidden" id="button--my-bookings">My Bookings</button>
@@ -38,11 +38,11 @@
       <p id="error--booking-message" class="error--booking-message hidden"></p>
       <section class="section--dates">
         <div class="input--room-search">
-          <label for="check-in">Select a Booking Date:</label>
+          <label for="input--date">Select a Booking Date:</label>
           <input type="date" name="check-in" id="input--date">
         </div>
         <div class="input--room-search">
-          <label for="roomType">Filter by Room Type: </label>
+          <label for="input--roomType">Filter by Room Type: </label>
           <input list="list--roomType" name="roomType" id="input--roomType" required>
           <datalist id="list--roomType">
             <option value="junior suite"></option>
