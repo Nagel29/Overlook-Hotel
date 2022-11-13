@@ -200,20 +200,21 @@ let retrieveAvailableRooms = (date, roomType) => {
     } else {
         rooms = allRooms;
     }
-    let availableRooms = rooms.reduce((acc, room) => {
-        let booked = false;
-        room.bookings.forEach(booking => {
-            if (booking.date === date) {
-                booked = true;
+    if (date) {
+        let availableRooms = rooms.reduce((acc, room) => {
+            let booked = false;
+            room.bookings.forEach(booking => {
+                if (booking.date === date) {
+                    booked = true;
+                }
+            })
+            if (booked === false) {
+                acc.push(room);
             }
-        })
-        if (booked === false) {
-            acc.push(room);
-        }
-        return acc;
-    }, []);
-    
-    return availableRooms;
+            return acc;
+        }, []);
+        return availableRooms;
+    }
 }
 
 let retrieveUserBookingsForDisplay = (type) => {
