@@ -10,7 +10,7 @@ describe('Booking', function() {
   let booking, bookingInfo;
 
   beforeEach(() => {
-    bookingInfo = { userID: customerData.id, roomNumber: roomData[14].number, date: '2022/04/22' }; 
+    bookingInfo = { userID: customerData[0].id, roomNumber: roomData[14].number, date: '2022/04/22' }; 
     booking = new Booking(bookingInfo)
   });
 
@@ -40,18 +40,4 @@ describe('Booking', function() {
       "costPerNight": 294.56
     });
   });
-
-  // it('should be able to generate a new booking ID', function() {
-  //   let lastID = '5fwrgu4i7k55hblzy';
-  //   booking.generateID(lastID);
-  //   expect(booking.id).to.equal('5fwrgu4i7k55hblzz');
-
-  //   lastID = '5fwrgu4i7k55hblzz';
-  //   booking.generateID(lastID);
-  //   expect(booking.id).to.equal('5fwrgu4i7k55hbm00');
-
-  //   lastID = '5fwrgu4i7k55hbl00';
-  //   booking.generateID(lastID)
-  //   expect(booking.id).to.equal('5fwrgu4i7k55hbm01');
-  // });
 });
