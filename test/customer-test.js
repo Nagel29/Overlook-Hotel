@@ -6,10 +6,11 @@ import roomData from '../src/test-data/room-data';
 const expect = chai.expect;
 
 describe('Customer', function() {
-  let customer, allRooms;
+  let customer, customerSad, allRooms;
 
   beforeEach(() => {
-    customer = new Customer(customerData);
+    customer = new Customer(customerData[0]);
+    customerSad = new Customer(customerData[1]);
     allRooms = roomData;
     customer.retrieveAllBookings(bookingData);
   });
@@ -72,6 +73,15 @@ describe('Customer', function() {
       "roomNumber": 12
     }]);
   });
+
+
+  it('should retrieve an empty array if there are no bookings', function() {
+    customerSad.retrieveAllBookings(bookingData)
+    expect(customerSad.bookings).to.deep.equal([]);
+    expect(customerSad.retrievePastBookings()).to.deep.equal([]);
+    expect(customerSad.retrieveFutureBookings()).to.deep.equal([]);
+  });
+
 
   it('should be able to calculate total cost spent on rooms', function() {
     expect(customer.calculateTotalSpent(customer.bookings, allRooms)).to.equal('671.42');

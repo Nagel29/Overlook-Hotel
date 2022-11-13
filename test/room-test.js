@@ -5,10 +5,11 @@ import roomData from '../src/test-data/room-data';
 const expect = chai.expect;
 
 describe('Room', function() {
-let room;
+let room, sadRoom;
 
   beforeEach(() => {
     room = new Room(roomData[11]);
+    sadRoom = new Room(roomData[1]);
 
   })
 
@@ -65,5 +66,10 @@ let room;
     ]);
   });
 
+
+  it('should retrieve an empty array when there are no bookings for the room', function() {
+    sadRoom.retrieveBookings(bookingData)
+    expect(sadRoom.bookings).to.deep.equal([]);
+  });
 
 });
