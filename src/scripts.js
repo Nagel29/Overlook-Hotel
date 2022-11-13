@@ -30,8 +30,11 @@ let myBookingsSection = document.querySelector('#section--my-bookings');
 let roomsTableBody = document.querySelector('#table--rooms-body');
 let apology =document.querySelector('#text--apology');
 let popUpText =document.querySelector('#text--popUp');
+let totalRooms = document.querySelector('#text--total-rooms');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
+
+let body = document.querySelector('body')
 
 
 // GLOBAL VARIABLES LIVE HERE
@@ -90,7 +93,9 @@ confirmationButtons.addEventListener('click', (event) => {
     if (event.target.id === 'button--confirm') {
         let bookingInfo = { userID: customer.id, roomNumber: desiredRoom.number, date: date}
         bookRoomPromise(bookingInfo);
+        body.style = "overflow: visible"
     } else if (event.target.id === 'button--no') {
+        body.style = "overflow: visible"
         hide(popUpBox);
     }
 })
@@ -169,6 +174,7 @@ let createAndWelcomeCustomer = (userData, bookings) => {
 
 let displayBookingConfirmation = (desiredRoom) => {
     show(popUpBox);
+    body.style = "overflow: hidden"
     popUpText.innerHTML = `Are you sure you would like to book the ${desiredRoom.roomType} for $${desiredRoom.costPerNight}?`
 }
 
@@ -254,7 +260,8 @@ let displayUserBookings = (bookings, type) => {
             </ul>
             <img class="image--room" src="./images/${roomInfo.roomType}.png" alt="${roomInfo.roomType}">
         </div>`
-    })
+    });
+    totalRooms.innerText = `Total number of ${type} rooms booked: ${bookings.length}`;
     totalSpent.innerText = `Total spent on ${type} rooms: $${customer.calculateTotalSpent(bookings, roomData)}`;
 }
 

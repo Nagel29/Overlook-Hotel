@@ -163,10 +163,10 @@
   color:#bc1a1a
 }
 
-.text--total-spent {
-  margin: 0% 0% 2% 0%;
+.text--total {
+  margin: 0% 0% 1% 0%;
   font-weight: bold;
-  font-size: 2.7vh;
+  font-size: 2.5vh;
   text-align: center;
 }
 
