@@ -157,9 +157,9 @@
   margin-top: 1%;
 }
 
-.text--apology {
+.text--apology, .text--fetch-fail {
   text-align: center;
-  font-size: 2vh;
+  font-size: 2.25vh;
   color:#bc1a1a
 }
 

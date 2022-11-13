@@ -1,8 +1,22 @@
+import { fetchFail, hide, show } from "./scripts"
+
 let fetchData = (endPoint) => {
     return fetch(`http://localhost:3001/api/v1/${endPoint}`)
-        .then(response => response.json())
-        .catch(error => console.log(error));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText)
+            } else {
+                hide(fetchFail)
+                return response.json()
+            }
+        })
+        .catch(error => {
+            console.log(error.message);
+            show(fetchFail);
+        })
 }
+
+
 
 let postBooking = (bookingInfo) => {
     return fetch('http://localhost:3001/api/v1/bookings', {
@@ -10,11 +24,17 @@ let postBooking = (bookingInfo) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ "userID": bookingInfo.userID , "date": bookingInfo.date , "roomNumber": bookingInfo.roomNumber })
     })
-    .then((response) => {
+    .then(response => {
         if (!response.ok) {
-            throw new Error('OOPS')
+            throw new Error(response.statusText)
+        } else {
+            hide(fetchFail)
+            return response.json()
         }
-        return response.json()
+    })
+    .catch(error => {
+        console.log(error.message);
+        show(fetchFail);
     })
 }
 
