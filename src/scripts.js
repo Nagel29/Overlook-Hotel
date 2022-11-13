@@ -28,7 +28,8 @@ let bookRoomSection = document.querySelector('#section--book-room');
 let bookingsSection = document.querySelector('#section--display-bookings');
 let myBookingsSection = document.querySelector('#section--my-bookings');
 let roomsTableBody = document.querySelector('#table--rooms-body');
-let apology =document.querySelector('#text--apology');
+let apology = document.querySelector('#text--apology');
+let fetchFail = document.querySelector('#text--fetch-fail');
 let popUpText =document.querySelector('#text--popUp');
 let totalRooms = document.querySelector('#text--total-rooms');
 let totalSpent = document.querySelector('#text--total-spent');
@@ -50,7 +51,7 @@ let promises = () => {
         roomData = data[0].rooms;
         updateRooms(allBookings)
         displayUserBookings(customer.bookings, 'all');
-    });
+    })
 }
 
 let bookRoomPromise = (bookingInfo) => {
@@ -267,5 +268,5 @@ let displayUserBookings = (bookings, type) => {
 
 window.addEventListener('load', promises())
 
-    
+export { fetchFail, show, hide };
 
