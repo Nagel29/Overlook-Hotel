@@ -35,7 +35,8 @@ let totalRooms = document.querySelector('#text--total-rooms');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
 
-let body = document.querySelector('body')
+
+let body = document.querySelector('body')   
 
 
 // GLOBAL VARIABLES LIVE HERE
@@ -128,6 +129,11 @@ roomsTableBody.addEventListener('click' , (event) => {
     if (event.target.dataset.room) {
         desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
         displayBookingConfirmation(desiredRoom);
+        let nonFocusable = document.querySelectorAll('*:not(#popUpBox, #text--popUp, #container--confirmation-buttons, #button--confirm, #button--no)');
+
+        nonFocusable.forEach(node => node.setAttribute("aria-hidden", true));
+        nonFocusable.forEach(node => node.setAttribute("aria-disabled", true));
+        nonFocusable.forEach(node => node.setAttribute("tabindex", -1));
     }
 })
 
@@ -241,7 +247,7 @@ let displayAvailableRooms = (availableRooms) => {
         <td>${room.bedSize}</td>
         <td>${room.numBeds}</td>
         <td>${room.costPerNight}</td>
-        <td><a href="#" data-room="${room.number}">Book Now!</a><td>
+        <td><a href="#" id="link--book-now" data-room="${room.number}">Book Now!</a><td>
         </tr>`
     })
 }

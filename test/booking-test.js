@@ -40,4 +40,5 @@ describe('Booking', function() {
       "costPerNight": 294.56
     });
   });
+  
 });
