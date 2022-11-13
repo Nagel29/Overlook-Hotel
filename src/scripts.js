@@ -28,6 +28,7 @@ let bookRoomSection = document.querySelector('#section--book-room');
 let bookingsSection = document.querySelector('#section--display-bookings');
 let myBookingsSection = document.querySelector('#section--my-bookings');
 let roomsTableBody = document.querySelector('#table--rooms-body');
+let apology =document.querySelector('#text--apology');
 let popUpText =document.querySelector('#text--popUp');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
@@ -78,6 +79,7 @@ bookingsNav.addEventListener('click', (event) => {
 bookRoomButton.addEventListener('click', () => {
     hide(myBookingsSection);
     dateInput.value = '';
+    roomTypeInput.value = '';
     displayAvailableRooms([]);
     show(bookRoomSection);
     hide(bookRoomButton);
@@ -87,13 +89,7 @@ bookRoomButton.addEventListener('click', () => {
 confirmationButtons.addEventListener('click', (event) => {
     if (event.target.id === 'button--confirm') {
         let bookingInfo = { userID: customer.id, roomNumber: desiredRoom.number, date: date}
-        //NEED TO CHECK FOR AVAILABILITY FIRST
         bookRoomPromise(bookingInfo);
-        // newBooking = new Booking(bookingInfo);
-        // // latestID = allBookings[allBookings.length - 1].id;
-        // // newBooking.generateID(latestID);
-        // allBookings.push(newBooking)
-        // console.log(newBooking)
     } else if (event.target.id === 'button--no') {
         hide(popUpBox);
     }
@@ -108,10 +104,12 @@ dateInput.addEventListener('input', (event) => {
     };
     let availableRooms = retrieveAvailableRooms(date, roomTypeFilter);
     hide(errorBookingMessage);
+    (availableRooms.length !== 0) ? hide(apology) : show(apology);
     displayAvailableRooms(availableRooms);
 })
 
 myBookingsButton.addEventListener('click', () => {
+    hide(apology);
     show(myBookingsSection);
     hide(bookRoomSection);
     show(bookRoomButton);
@@ -131,6 +129,7 @@ roomTypeInput.addEventListener('input', (event) => {
     roomTypeFilter = event.target.value;
     let availableRooms = retrieveAvailableRooms(date, roomTypeFilter);
     hide(errorBookingMessage);
+    (availableRooms.length !== 0) ? hide(apology) : show(apology);
     displayAvailableRooms(availableRooms);
 })
 
@@ -190,7 +189,7 @@ let retrieveAvailableRooms = (date, roomType) => {
     let availableRoomsByType, rooms;
     if (roomType) {
         availableRoomsByType = allRooms.filter(room => room.roomType === roomType);
-        rooms = availableRoomsByType
+        rooms = availableRoomsByType;
     } else {
         rooms = allRooms;
     }
