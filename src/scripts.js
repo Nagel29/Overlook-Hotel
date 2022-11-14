@@ -7,10 +7,6 @@ import './images/residential suite.png';
 import './images/suite.png';
 import './images/single room.png';
 import Customer from './customer-class.js';
-// import customerData from './test-data/customer-data.js';
-// import bookingData from './test-data/booking-data.js';
-// import roomData from './test-data/room-data.js';
-// import Booking from './booking-class.js';
 import { fetchData, postBooking } from './apiCalls.js';
 import Room from './room-class';
 
@@ -19,8 +15,11 @@ let bookRoomButton = document.querySelector('#button--book-room');
 let myBookingsButton = document.querySelector('#button--my-bookings');
 let confirmationButtons = document.querySelector('#container--confirmation-buttons');
 let errorBookingMessage = document.querySelector('#error--booking-message');
+let loginPage = document.querySelector('#form--login-page');
 let dateInput = document.querySelector('#input--date');
 let roomTypeInput = document.querySelector('#input--roomType');
+let usernameInput = document.querySelector('#input--username');
+let passwordInput = document.querySelector('#input--password');
 let bookingsNav = document.querySelector('#nav--bookings');
 let welcomeMessage = document.querySelector('#p--welcome');
 let popUpBox = document.querySelector('#popUpBox');
@@ -282,8 +281,6 @@ let displayUserBookings = (bookings, type) => {
     totalRooms.innerText = `Total number of ${type} rooms booked: ${bookings.length}`;
     totalSpent.innerText = `Total spent on ${type} rooms: $${customer.calculateTotalSpent(bookings, roomData)}`;
 }
-
-window.addEventListener('load', promises())
 
 export { fetchFail, show, hide };
 

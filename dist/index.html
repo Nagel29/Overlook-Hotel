@@ -12,13 +12,27 @@
       <p class="p--welcome" id="p--welcome"></p>
       <img src="./images/overlook-logo.png" alt="overlook hotel logo" class="image--overlook">
       <nav class="nav--header">
-        <button type="button" class="button--nav" id="button--book-room">Book a Room</button>
+        <button type="button" class="button--nav hidden" id="button--book-room">Book a Room</button>
         <button type="button" class="button--nav hidden" id="button--my-bookings">My Bookings</button>
       </nav>
     </section>
   </header>
   <main>
-    <section class="section--my-bookings" id="section--my-bookings">
+    <section class="container--login" id="container--login">
+      <h5>Please enter your user credentials</h5>
+      <form class="form--login-page" id="form--login-page">
+        <div class="input--login">
+          <label for="input--username">Username:</label>
+          <input type="text" name="username" id="input--username" aria-label="username">
+        </div>
+        <div class="input--login">
+          <label for="input--password">Password:</label>
+          <input type="text" name="password" id="input--password" aria-label="password">
+        </div>
+        <button type="submit" class="button--login" id="button--login">Log In</button>
+      </form>
+    </section>
+    <section class="section--my-bookings hidden" id="section--my-bookings">
       <h1>My Bookings</h1>
       <nav class="nav--bookings" id="nav--bookings">
         <a href="#" class="link--bookings" data-cat="past">Past Bookings</a>
@@ -39,7 +53,7 @@
       <section class="section--dates">
         <div class="input--room-search">
           <label for="input--date">Select a Booking Date:</label>
-          <input type="date" name="check-in" id="input--date" aria-label="date">
+          <input type="date" name="date" id="input--date" aria-label="date">
         </div>
         <div class="input--room-search">
           <label for="input--roomType">Filter by Room Type: </label>
