@@ -74,7 +74,6 @@ describe('Customer', function() {
     }]);
   });
 
-
   it('should retrieve an empty array if there are no bookings', function() {
     customerSad.retrieveAllBookings(bookingData)
     expect(customerSad.bookings).to.deep.equal([]);
@@ -82,9 +81,8 @@ describe('Customer', function() {
     expect(customerSad.retrieveFutureBookings()).to.deep.equal([]);
   });
 
-
   it('should be able to calculate total cost spent on rooms', function() {
     expect(customer.calculateTotalSpent(customer.bookings, allRooms)).to.equal('671.42');
   });
-  
+
 });

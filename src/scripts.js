@@ -15,8 +15,8 @@ let bookRoomButton = document.querySelector('#button--book-room');
 let loginButton = document.querySelector('#button--login')
 let myBookingsButton = document.querySelector('#button--my-bookings');
 let confirmationButtons = document.querySelector('#container--confirmation-buttons');
+let loginPage = document.querySelector('#container--login');
 let errorBookingMessage = document.querySelector('#error--booking-message');
-let loginPage = document.querySelector('#form--login-page');
 let dateInput = document.querySelector('#input--date');
 let roomTypeInput = document.querySelector('#input--roomType');
 let usernameInput = document.querySelector('#input--username');
@@ -30,6 +30,7 @@ let myBookingsSection = document.querySelector('#section--my-bookings');
 let roomsTableBody = document.querySelector('#table--rooms-body');
 let apology = document.querySelector('#text--apology');
 let fetchFail = document.querySelector('#text--fetch-fail');
+let loginError = document.querySelector('#text--login-error');
 let popUpText =document.querySelector('#text--popUp');
 let totalRooms = document.querySelector('#text--total-rooms');
 let totalSpent = document.querySelector('#text--total-spent');
@@ -56,7 +57,9 @@ let customerLoginPromise = (id) => {
             createAndWelcomeCustomer(data[0], allBookings);
             updateRooms(allBookings)
             displayUserBookings(customer.bookings, 'all');
-            console.log(customer)
+            hide(loginPage);
+            show(bookRoomButton);
+            show(myBookingsSection);
         })
 }
 
@@ -123,16 +126,8 @@ dateInput.addEventListener('input', (event) => {
 
 loginButton.addEventListener('click', (event) => {
     event.preventDefault();
-    if (allCustomers.includes(usernameInput.value)) {
-        let ids = [];
-        usernameInput.value.split('').forEach((letter, index) => {
-            if (index > 7) {
-                return ids.push(letter);
-            }
-        });
-        let id = ids.join('')
-        customerLoginPromise(id);
-    }
+    validateCredentials();
+
 })
 
 myBookingsButton.addEventListener('click', () => {
@@ -168,6 +163,21 @@ let show = (element) => {
 
 let hide = (element) => {
     element.classList.add('hidden')
+}
+
+let validateCredentials = () => {
+    if (allCustomers.includes(usernameInput.value) && passwordInput.value === 'overlook2021') {
+        let ids = [];
+        usernameInput.value.split('').forEach((letter, index) => {
+            if (index > 7) {
+                return ids.push(letter);
+            }
+        });
+        let id = ids.join('')
+        customerLoginPromise(id);
+    } else {
+        loginError.innerText = "Credentials not found. Please try again."
+    }
 }
 
 let focusOnPopUp = () => {
