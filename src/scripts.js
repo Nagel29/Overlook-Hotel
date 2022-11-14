@@ -280,8 +280,8 @@ let retrieveAvailableRooms = (date, roomType) => {
         let availableRooms = rooms.reduce((acc, room) => {
             if (!room.checkIfBooked(date)) {
                 acc.push(room);
-                return acc;
             }
+            return acc;
         }, []);
     return availableRooms;
     }
