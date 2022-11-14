@@ -7,20 +7,20 @@ import './images/residential suite.png';
 import './images/suite.png';
 import './images/single room.png';
 import Customer from './customer-class.js';
-// import customerData from './test-data/customer-data.js';
-// import bookingData from './test-data/booking-data.js';
-// import roomData from './test-data/room-data.js';
-// import Booking from './booking-class.js';
 import { fetchData, postBooking } from './apiCalls.js';
 import Room from './room-class';
 
 //  QUERYSELECTORS LIVE HERE
 let bookRoomButton = document.querySelector('#button--book-room');
+let loginButton = document.querySelector('#button--login')
 let myBookingsButton = document.querySelector('#button--my-bookings');
 let confirmationButtons = document.querySelector('#container--confirmation-buttons');
+let loginPage = document.querySelector('#container--login');
 let errorBookingMessage = document.querySelector('#error--booking-message');
 let dateInput = document.querySelector('#input--date');
 let roomTypeInput = document.querySelector('#input--roomType');
+let usernameInput = document.querySelector('#input--username');
+let passwordInput = document.querySelector('#input--password');
 let bookingsNav = document.querySelector('#nav--bookings');
 let welcomeMessage = document.querySelector('#p--welcome');
 let popUpBox = document.querySelector('#popUpBox');
@@ -30,28 +30,37 @@ let myBookingsSection = document.querySelector('#section--my-bookings');
 let roomsTableBody = document.querySelector('#table--rooms-body');
 let apology = document.querySelector('#text--apology');
 let fetchFail = document.querySelector('#text--fetch-fail');
+let loginError = document.querySelector('#text--login-error');
 let popUpText =document.querySelector('#text--popUp');
 let totalRooms = document.querySelector('#text--total-rooms');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
-
-let body = document.querySelector('body')   
-
+let body = document.querySelector('body');
 
 // GLOBAL VARIABLES LIVE HERE
-let customer, roomData, allRooms, allBookings, date, desiredRoom, roomTypeFilter;
+let customer, roomData, allRooms, allBookings, date, desiredRoom, roomTypeFilter, allCustomers;
 
 
 //  PROMISES LIVE HERE
 let promises = () => {
-    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers/1')])
+    Promise.all([fetchData('rooms'), fetchData('bookings'), fetchData('customers')])
     .then(data => {
+        allCustomers = data[2].customers.map(customer => 'customer' + customer.id);
         allBookings = data[1].bookings;
-        createAndWelcomeCustomer(data[2], allBookings);
         roomData = data[0].rooms;
-        updateRooms(allBookings)
-        displayUserBookings(customer.bookings, 'all');
     })
+}
+
+let customerLoginPromise = (id) => {
+    Promise.all([fetchData(`customers/${id}`)])
+        .then(data => {
+            createAndWelcomeCustomer(data[0], allBookings);
+            updateRooms(allBookings)
+            displayUserBookings(customer.bookings, 'all');
+            hide(loginPage);
+            show(bookRoomButton);
+            show(myBookingsSection);
+        })
 }
 
 let bookRoomPromise = (bookingInfo) => {
@@ -70,7 +79,6 @@ let bookRoomPromise = (bookingInfo) => {
     })
     
 }
-
 
 //  EVENT LISTENERS LIVE HERE
 bookingsNav.addEventListener('click', (event) => {
@@ -116,6 +124,12 @@ dateInput.addEventListener('input', (event) => {
     displayAvailableRooms(availableRooms);
 })
 
+loginButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    validateCredentials();
+
+})
+
 myBookingsButton.addEventListener('click', () => {
     hide(apology);
     show(myBookingsSection);
@@ -149,6 +163,21 @@ let show = (element) => {
 
 let hide = (element) => {
     element.classList.add('hidden')
+}
+
+let validateCredentials = () => {
+    if (allCustomers.includes(usernameInput.value) && passwordInput.value === 'overlook2021') {
+        let ids = [];
+        usernameInput.value.split('').forEach((letter, index) => {
+            if (index > 7) {
+                return ids.push(letter);
+            }
+        });
+        let id = ids.join('')
+        customerLoginPromise(id);
+    } else {
+        loginError.innerText = "Credentials not found. Please try again."
+    }
 }
 
 let focusOnPopUp = () => {
@@ -283,7 +312,7 @@ let displayUserBookings = (bookings, type) => {
     totalSpent.innerText = `Total spent on ${type} rooms: $${customer.calculateTotalSpent(bookings, roomData)}`;
 }
 
-window.addEventListener('load', promises())
+window.addEventListener('onload', promises())
 
 export { fetchFail, show, hide };
 
