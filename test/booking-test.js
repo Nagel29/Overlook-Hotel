@@ -1,7 +1,5 @@
 import chai from 'chai';
 import Booking from '../src/booking-class.js';
-import bookingData from '../src/test-data/booking-data.js';
-import Customer from '../src/customer-class.js';
 import customerData from '../src/test-data/customer-data.js';
 import roomData from '../src/test-data/room-data';
 const expect = chai.expect;

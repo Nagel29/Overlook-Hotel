@@ -89,71 +89,32 @@ bookingsNav.addEventListener('click', (event) => {
 })
 
 bookRoomButton.addEventListener('click', () => {
-    hide(myBookingsSection);
-    dateInput.value = '';
-    roomTypeInput.value = '';
-    displayAvailableRooms([]);
-    show(bookRoomSection);
-    hide(bookRoomButton);
-    show(myBookingsButton);
+    navigateToBookARoom();
 })
 
 confirmationButtons.addEventListener('click', (event) => {
-    if (event.target.id === 'button--confirm') {
-        let bookingInfo = { userID: customer.id, roomNumber: desiredRoom.number, date: date}
-        bookRoomPromise(bookingInfo);
-        body.style = "overflow: visible"
-        resetPopUpFocus();
-    } else if (event.target.id === 'button--no') {
-        body.style = "overflow: visible"
-        hide(popUpBox);
-        resetPopUpFocus();
-    }
+    confirmOrCancelBooking(event);
 })
 
 dateInput.addEventListener('input', (event) => {
-    date = event.target.value;
-    date = date.replace(/[-]/g, '/');
-    if (checkDate(date) === 'invalid date') {
-        roomsTableBody.innerHTML = ''
-        return;
-    };
-    let availableRooms = retrieveAvailableRooms(date, roomTypeFilter);
-    hide(errorBookingMessage);
-    (availableRooms.length !== 0) ? hide(apology) : show(apology);
-    displayAvailableRooms(availableRooms);
+    respondToDateInput(event);
 })
 
 loginButton.addEventListener('click', (event) => {
     event.preventDefault();
     validateCredentials();
-
 })
 
 myBookingsButton.addEventListener('click', () => {
-    hide(apology);
-    show(myBookingsSection);
-    hide(bookRoomSection);
-    show(bookRoomButton);
-    hide(myBookingsButton);
-    let bookings = retrieveUserBookingsForDisplay('all');
-    displayUserBookings(bookings, 'all');
+    navigateToMyBookings();
 })
 
 roomsTableBody.addEventListener('click' , (event) => {
-    if (event.target.dataset.room) {
-        desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
-        displayBookingConfirmation(desiredRoom);
-        focusOnPopUp();
-    }
+    displayBookingConfirmation(event);
 })
 
 roomTypeInput.addEventListener('input', (event) => {
-    roomTypeFilter = event.target.value;
-    let availableRooms = retrieveAvailableRooms(date, roomTypeFilter);
-    hide(errorBookingMessage);
-    (availableRooms.length !== 0) ? hide(apology) : show(apology);
-    displayAvailableRooms(availableRooms);
+    respondToRoomTypeInput(event);
 })
 
 // HELPER FUNCTIONS LIVE HERE
@@ -165,44 +126,6 @@ let hide = (element) => {
     element.classList.add('hidden')
 }
 
-let validateCredentials = () => {
-    if (allCustomers.includes(usernameInput.value) && passwordInput.value === 'overlook2021') {
-        let ids = [];
-        usernameInput.value.split('').forEach((letter, index) => {
-            if (index > 7) {
-                return ids.push(letter);
-            }
-        });
-        let id = ids.join('')
-        customerLoginPromise(id);
-    } else {
-        loginError.innerText = "Credentials not found. Please try again."
-    }
-}
-
-let focusOnPopUp = () => {
-    let nonFocusable = bookRoomSection.querySelectorAll('*:not(#popUpBox, #text--popUp, #container--confirmation-buttons, #button--confirm, #button--no)');
-    nonFocusable.forEach(node => node.setAttribute("aria-disabled", true));
-    nonFocusable.forEach(node => node.setAttribute("tabindex", -1));
-}
-
-let resetPopUpFocus = () => {
-    let nonFocusable = bookRoomSection.querySelectorAll('*:not(#popUpBox, #text--popUp, #container--confirmation-buttons, #button--confirm, #button--no)');
-    nonFocusable.forEach(node => node.removeAttribute("aria-hidden"));
-    nonFocusable.forEach(node => node.removeAttribute("aria-disabled"));
-    nonFocusable.forEach(node => node.removeAttribute("tabindex"));
-}
-
-let getTodaysDate = () => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    var yyyy = today.getFullYear();
-
-    today = yyyy + '/' + mm + '/' + dd;
-    return today;
-}
-
 let checkDate = (date) => {
     let todaysDate = getTodaysDate();
     if (date < todaysDate) {
@@ -212,67 +135,21 @@ let checkDate = (date) => {
     } 
 }
 
+let confirmOrCancelBooking = (event) => {
+    if (event.target.id === 'button--confirm') {
+        let bookingInfo = { userID: customer.id, roomNumber: desiredRoom.number, date: date}
+        bookRoomPromise(bookingInfo);
+        resetPopUpFocus();
+    } else if (event.target.id === 'button--no') {
+        hide(popUpBox);
+        resetPopUpFocus();
+    }
+}
+
 let createAndWelcomeCustomer = (userData, bookings) => {
     customer = new Customer(userData);
     customer.retrieveAllBookings(bookings);
     updateWelcome();
-}
-
-let displayBookingConfirmation = (desiredRoom) => {
-    show(popUpBox);
-    body.style = "overflow: hidden"
-    popUpText.innerHTML = `Are you sure you would like to book the ${desiredRoom.roomType} for $${desiredRoom.costPerNight}?`
-}
-
-let updateRooms = (bookings) => {
-    allRooms = [];
-    roomData.forEach(room => {
-        let roomInstance = new Room(room);
-        roomInstance.retrieveBookings(bookings);
-        allRooms.push(roomInstance);
-    });
-}
-
-let updateWelcome = () => {
-    welcomeMessage.innerText = `Welcome, ${customer.name}!`;
-}
-
-let retrieveAvailableRooms = (date, roomType) => {
-    let availableRoomsByType, rooms;
-    if (roomType) {
-        availableRoomsByType = allRooms.filter(room => room.roomType === roomType);
-        rooms = availableRoomsByType;
-    } else {
-        rooms = allRooms;
-    }
-    if (date) {
-        let availableRooms = rooms.reduce((acc, room) => {
-            let booked = false;
-            room.bookings.forEach(booking => {
-                if (booking.date === date) {
-                    booked = true;
-                }
-            })
-            if (booked === false) {
-                acc.push(room);
-            }
-            return acc;
-        }, []);
-        return availableRooms;
-    }
-}
-
-let retrieveUserBookingsForDisplay = (type) => {
-    bookingsSection.innerHTML = ''
-    let bookings;
-    if (type === 'all') {
-        bookings = customer.bookings;
-    } else if (type === 'future') {
-        bookings = customer.retrieveFutureBookings();
-    } else if (type === 'past') {
-        bookings = customer.retrievePastBookings();
-    }
-    return bookings;
 }
 
 let displayAvailableRooms = (availableRooms) => {
@@ -289,6 +166,18 @@ let displayAvailableRooms = (availableRooms) => {
         <td><a href="#" id="link--book-now-room-${room.number}" data-room="${room.number}" role="link">Book Now!</a><td>
         </tr>`
     })
+}
+
+let displayBookingConfirmation = (event) => {
+    if (event.target.dataset.room) {
+        desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
+    } else {
+        return;
+    }
+    show(popUpBox);
+    body.style = "overflow: hidden"
+    popUpText.innerHTML = `Are you sure you would like to book the ${desiredRoom.roomType} on ${date} for $${desiredRoom.costPerNight}?`;
+    focusOnPopUp();
 }
 
 let displayUserBookings = (bookings, type) => {
@@ -310,6 +199,133 @@ let displayUserBookings = (bookings, type) => {
     });
     totalRooms.innerText = `Total number of ${type} rooms booked: ${bookings.length}`;
     totalSpent.innerText = `Total spent on ${type} rooms: $${customer.calculateTotalSpent(bookings, roomData)}`;
+}
+
+let focusOnPopUp = () => {
+    let nonFocusable = bookRoomSection.querySelectorAll('*:not(#popUpBox, #text--popUp, #container--confirmation-buttons, #button--confirm, #button--no)');
+    nonFocusable.forEach(node => node.setAttribute("aria-disabled", true));
+    nonFocusable.forEach(node => node.setAttribute("tabindex", -1));
+}
+
+let getTodaysDate = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '/' + mm + '/' + dd;
+    return today;
+}
+
+let navigateToBookARoom = () => {
+    hide(myBookingsSection);
+    dateInput.value = '';
+    date = '';
+    roomTypeInput.value = '';
+    roomTypeFilter = '';
+    displayAvailableRooms([]);
+    show(bookRoomSection);
+    hide(bookRoomButton);
+    show(myBookingsButton);
+}
+
+let navigateToMyBookings = () => {
+    hide(apology);
+    show(myBookingsSection);
+    hide(bookRoomSection);
+    show(bookRoomButton);
+    hide(myBookingsButton);
+    let bookings = retrieveUserBookingsForDisplay('all');
+    displayUserBookings(bookings, 'all');
+}
+
+let resetPopUpFocus = () => {
+    let nonFocusable = bookRoomSection.querySelectorAll('*:not(#popUpBox, #text--popUp, #container--confirmation-buttons, #button--confirm, #button--no)');
+    nonFocusable.forEach(node => node.removeAttribute("aria-hidden"));
+    nonFocusable.forEach(node => node.removeAttribute("aria-disabled"));
+    nonFocusable.forEach(node => node.removeAttribute("tabindex"));
+    body.style = "overflow: visible"
+}
+
+let respondToDateInput = (event) => {
+    date = event.target.value;
+    date = date.replace(/[-]/g, '/');
+    if (checkDate(date) === 'invalid date') {
+        roomsTableBody.innerHTML = ''
+        return;
+    };
+    hide(errorBookingMessage);
+    let availableRooms = retrieveAvailableRooms(date, roomTypeFilter);
+    (availableRooms.length !== 0) ? hide(apology) : show(apology);
+    displayAvailableRooms(availableRooms);
+}
+
+let respondToRoomTypeInput = (event) => {
+    roomTypeFilter = event.target.value;
+    hide(errorBookingMessage);
+    let availableRooms = retrieveAvailableRooms(date, roomTypeFilter);
+    (availableRooms.length !== 0) ? hide(apology) : show(apology);
+    displayAvailableRooms(availableRooms);
+}
+
+let retrieveAvailableRooms = (date, roomType) => {
+    let availableRoomsByType, rooms;
+    if (roomType) {
+        availableRoomsByType = allRooms.filter(room => room.roomType === roomType);
+        rooms = availableRoomsByType;
+    } else {
+        rooms = allRooms;
+    }
+    if (date) {
+        let availableRooms = rooms.reduce((acc, room) => {
+            if (!room.checkIfBooked(date)) {
+                acc.push(room);
+                return acc;
+            }
+        }, []);
+    return availableRooms;
+    }
+}
+
+let retrieveUserBookingsForDisplay = (type) => {
+    bookingsSection.innerHTML = ''
+    let bookings;
+    if (type === 'all') {
+        bookings = customer.bookings;
+    } else if (type === 'future') {
+        bookings = customer.retrieveFutureBookings();
+    } else if (type === 'past') {
+        bookings = customer.retrievePastBookings();
+    }
+    return bookings;
+}
+
+let validateCredentials = () => {
+    if (allCustomers.includes(usernameInput.value) && passwordInput.value === 'overlook2021') {
+        let ids = [];
+        usernameInput.value.split('').forEach((letter, index) => {
+            if (index > 7) {
+                return ids.push(letter);
+            }
+        });
+        let id = ids.join('')
+        customerLoginPromise(id);
+    } else {
+        loginError.innerText = "Credentials not found. Please try again."
+    }
+}
+
+let updateRooms = (bookings) => {
+    allRooms = [];
+    roomData.forEach(room => {
+        let roomInstance = new Room(room);
+        roomInstance.retrieveBookings(bookings);
+        allRooms.push(roomInstance);
+    });
+}
+
+let updateWelcome = () => {
+    welcomeMessage.innerText = `Welcome, ${customer.name}!`;
 }
 
 window.addEventListener('onload', promises())
