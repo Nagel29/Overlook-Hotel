@@ -35,7 +35,7 @@ let totalRooms = document.querySelector('#text--total-rooms');
 let totalSpent = document.querySelector('#text--total-spent');
 let bookingsTitle = document.querySelector('#title--bookings');
 
-let body = document.querySelector('body')
+let body = document.querySelector('body')   
 
 
 // GLOBAL VARIABLES LIVE HERE
@@ -95,9 +95,11 @@ confirmationButtons.addEventListener('click', (event) => {
         let bookingInfo = { userID: customer.id, roomNumber: desiredRoom.number, date: date}
         bookRoomPromise(bookingInfo);
         body.style = "overflow: visible"
+        resetPopUpFocus();
     } else if (event.target.id === 'button--no') {
         body.style = "overflow: visible"
         hide(popUpBox);
+        resetPopUpFocus();
     }
 })
 
@@ -128,6 +130,7 @@ roomsTableBody.addEventListener('click' , (event) => {
     if (event.target.dataset.room) {
         desiredRoom = allRooms.find(room => room.number.toString() === event.target.dataset.room);
         displayBookingConfirmation(desiredRoom);
+        focusOnPopUp();
     }
 })
 
@@ -146,6 +149,19 @@ let show = (element) => {
 
 let hide = (element) => {
     element.classList.add('hidden')
+}
+
+let focusOnPopUp = () => {
+    let nonFocusable = bookRoomSection.querySelectorAll('*:not(#popUpBox, #text--popUp, #container--confirmation-buttons, #button--confirm, #button--no)');
+    nonFocusable.forEach(node => node.setAttribute("aria-disabled", true));
+    nonFocusable.forEach(node => node.setAttribute("tabindex", -1));
+}
+
+let resetPopUpFocus = () => {
+    let nonFocusable = bookRoomSection.querySelectorAll('*:not(#popUpBox, #text--popUp, #container--confirmation-buttons, #button--confirm, #button--no)');
+    nonFocusable.forEach(node => node.removeAttribute("aria-hidden"));
+    nonFocusable.forEach(node => node.removeAttribute("aria-disabled"));
+    nonFocusable.forEach(node => node.removeAttribute("tabindex"));
 }
 
 let getTodaysDate = () => {
@@ -233,15 +249,15 @@ let retrieveUserBookingsForDisplay = (type) => {
 let displayAvailableRooms = (availableRooms) => {
     roomsTableBody.innerHTML = '';
     availableRooms.forEach(room => {
-        roomsTableBody.innerHTML += `<tr>
-        <td>${room.number}</td>
-        <td><img class="image--book-room" src="./images/${room.roomType}.png"></td>
-        <td>${room.roomType}</td>
-        <td>${room.bidet}</td>
-        <td>${room.bedSize}</td>
-        <td>${room.numBeds}</td>
-        <td>${room.costPerNight}</td>
-        <td><a href="#" data-room="${room.number}">Book Now!</a><td>
+        roomsTableBody.innerHTML += `<tr tabindex=0>
+        <td aria-label="room number ${room.number}">${room.number}</td>
+        <td><img class="image--book-room" src="./images/${room.roomType}.png" alt="${room.roomType}"></td>
+        <td aria-label="room type ${room.roomType}">${room.roomType}</td>
+        <td aria-label="bidet ${room.bidet}">${room.bidet}</td>
+        <td aria-label="bed size ${room.bedSize}">${room.bedSize}</td>
+        <td aria-label="number of beds ${room.numBeds}">${room.numBeds}</td>
+        <td aria-label="cost per night $${room.costPerNight}">$${room.costPerNight}</td>
+        <td><a href="#" id="link--book-now-room-${room.number}" data-room="${room.number}" role="link">Book Now!</a><td>
         </tr>`
     })
 }
@@ -251,7 +267,7 @@ let displayUserBookings = (bookings, type) => {
     bookings.forEach(booking => {
         let roomInfo = booking.retrieveRoomInfo(allRooms);
         bookingsSection.innerHTML += 
-        `<div class="card--booking">
+        `<div class="card--booking" tabindex=0>
             <ul>
             <li>Date: ${booking.date}</li>
             <li>Room Number: ${booking.roomNumber}</li>

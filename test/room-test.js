@@ -66,10 +66,9 @@ let room, sadRoom;
     ]);
   });
 
-
   it('should retrieve an empty array when there are no bookings for the room', function() {
     sadRoom.retrieveBookings(bookingData)
     expect(sadRoom.bookings).to.deep.equal([]);
   });
-
+  
 });
