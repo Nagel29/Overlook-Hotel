@@ -16,8 +16,6 @@ let fetchData = (endPoint) => {
         })
 }
 
-
-
 let postBooking = (bookingInfo) => {
     return fetch('http://localhost:3001/api/v1/bookings', {
         method: 'POST',

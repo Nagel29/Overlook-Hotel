@@ -12,7 +12,15 @@ class Room {
         this.bookings = bookingsData.filter(booking => booking.roomNumber === this.number);
     }
 
-    
+    checkIfBooked(date) {
+        let booked = false;
+        this.bookings.forEach(booking => {
+            if (booking.date === date) {
+                booked = true;
+            }
+        })
+        return booked;
+    }
 
 }
 
