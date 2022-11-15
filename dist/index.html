@@ -7,7 +7,6 @@
   <title>Overlook Hotel</title>
 <body>
   <header>
-    <!-- <h1>Welcome to The Overlook Hotel</h1> -->
     <section class="section--header">
       <p class="p--welcome" id="p--welcome"></p>
       <img src="./images/overlook-logo.png" alt="overlook hotel logo" class="image--overlook">
@@ -19,8 +18,8 @@
   </header>
   <main>
     <section class="container--login" id="container--login">
-      <h5>Please enter your user credentials</h5>
       <form class="form--login-page" id="form--login-page">
+        <h5>Please enter your user credentials</h5>
         <div class="input--login">
           <label for="input--username">Username:</label>
           <input type="text" name="username" id="input--username" aria-label="username">
@@ -30,8 +29,9 @@
           <input type="text" name="password" id="input--password" aria-label="password">
         </div>
         <button type="submit" class="button--login" id="button--login">Log In</button>
+        <p class="text--login-error" id="text--login-error"></p>
       </form>
-      <p class="text--login-error" id="text--login-error"></p>
+      <img src="./images/lodge.png" alt="lodge picture" class="image--lodge">
     </section>
     <section class="section--my-bookings hidden" id="section--my-bookings">
       <h1>My Bookings</h1>
