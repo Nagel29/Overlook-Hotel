@@ -308,7 +308,7 @@ let validateCredentials = () => {
                 return ids.push(letter);
             }
         });
-        let id = ids.join('')
+        let id = ids.join('');
         customerLoginPromise(id);
     } else {
         loginError.innerText = "Credentials not found. Please try again."
