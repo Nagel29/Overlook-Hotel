@@ -60,7 +60,7 @@
 }
 
 .form--login-page {
-  color: rgb(255, 255, 255);
+  color: #ffffff;
   border: 2.75px #dea988 solid;
   padding: 2%;
   width: 20%;
@@ -69,7 +69,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(97, 87, 82);
+  background-color: #615752;
   box-shadow: 0 0 20px black;
   opacity: .9;
 }
@@ -286,10 +286,10 @@ li {
     width: 30%;
     height: 12%;
     overflow: hidden;
-    background: #ce9b9b;
+    background: #615752;
     box-shadow: 0 0 20px black;
     border-radius: 10px;
-    border: solid 2px white;
+    border: 2.75px #dea988 solid;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -297,7 +297,7 @@ li {
     z-index: 9999;
     padding: 10px;
     text-align: center;
-    color: #000000;
+    color: #ffffff;
 }
 
   
