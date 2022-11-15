@@ -6,6 +6,7 @@ import './images/junior suite.png';
 import './images/residential suite.png';
 import './images/suite.png';
 import './images/single room.png';
+import './images/lodge.png';
 import Customer from './customer-class.js';
 import { fetchData, postBooking } from './apiCalls.js';
 import Room from './room-class';
