@@ -129,11 +129,12 @@ let hide = (element) => {
 
 let checkDate = (date) => {
     let todaysDate = getTodaysDate();
-    if (date < todaysDate) {
+    if (date < todaysDate || !date) {
         show(errorBookingMessage);
         errorBookingMessage.innerText = `Please select a date no earlier than ${todaysDate}`;
         return 'invalid date';
     } 
+    
 }
 
 let confirmOrCancelBooking = (event) => {
@@ -263,6 +264,10 @@ let respondToDateInput = (event) => {
 
 let respondToRoomTypeInput = (event) => {
     roomTypeFilter = event.target.value;
+    if (checkDate(date) === 'invalid date') {
+        roomsTableBody.innerHTML = ''
+        return;
+    };
     hide(errorBookingMessage);
     let availableRooms = retrieveAvailableRooms(date, roomTypeFilter);
     (availableRooms.length !== 0) ? hide(apology) : show(apology);

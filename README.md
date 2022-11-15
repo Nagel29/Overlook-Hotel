@@ -2,7 +2,7 @@
 ## Abstract:
 This application is the final project for Mod 2 (4 Mods total) of Turing School of Software and Design. It simulates a hotel's site which allows the user to log in, view past/future bookings, and book new rooms. All of the relevant data such as customers, rooms, and bookings are fetched from an API. Once a new booking takes place, it is posted to the API and the updated data is fetched back.
 
-![](/images/app-gif.gif)
+![](/src/images/app-gif.gif)
 
 ## Installation Instructions:
 1. Go to [this repo](https://github.com/Nagel29/Overlook-Hotel) on Github
