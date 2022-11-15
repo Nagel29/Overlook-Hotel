@@ -49,6 +49,7 @@ let promises = () => {
         allCustomers = data[2].customers.map(customer => 'customer' + customer.id);
         allBookings = data[1].bookings;
         roomData = data[0].rooms;
+        hide(fetchFail);
     })
 }
 

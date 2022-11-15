@@ -203,7 +203,8 @@
 .text--apology, .text--fetch-fail {
   text-align: center;
   font-size: 2.25vh;
-  color:#bc1a1a
+  padding-top: .5%;
+  color:#bc1a1a;
 }
 
 .text--total {
